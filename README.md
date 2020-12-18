@@ -1,3 +1,12 @@
+---
+PROJECT: FitLit
+PROGRAM: Turing Mod2 Project
+NAME: Suzanne Wolf
+COURSE: Front End Engineering
+DATE: 10/17/2020
+file name: README - S. Wolf 
+---
+
 # FitLit Starter Kit
 
 The details of this project are outline in [this project spec](http://frontend.turing.io/projects/fitlit.html).
