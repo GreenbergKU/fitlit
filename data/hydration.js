@@ -25000,3 +25000,15 @@ const hydrationData = [
     "numOunces": 87
   }
 ];
+
+const hydraDataSamples = hydrationData.filter(data => 
+  data.userID === 1 || data.userID === 2 || data.userID === 3 || data.userID === 4 || data.userID === 5
+);
+// console.log('hydraDataSamples: ', hydraDataSamples);
+// let userHydraData = hydraDataSamples.filter(day => day.userID === user.id);
+// console.log('userHydraData: ', userHydraData);
+// let hydrationDay = userHydraData.slice(-1);
+// console.log('hydrationDay: ', hydrationDay);
+// let hydrationWeek = userHydraData.slice(-7);
+// console.log('hydrationWeek: ', hydrationWeek);
+
