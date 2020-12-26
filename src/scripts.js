@@ -1,31 +1,45 @@
+let data = [userData, hydrationData, sleepData, activityData];
+console.log('data: ', data.length);
 let user;
 let repoData;
+/*
+// let repo = new UserRepository(userData, hydrationData, sleepData, activityData);
+// let userRepoData = repo.findUser(1);
+// new User(repo, userRepoData[0]);
+*/
 
 function loadFit(data, id) {
   console.log('@loadFit(data):');
+  //data = (userData, hydrationData, sleepData, activityData);
   repoData = new UserRepository(data);
-  user = new User(repoData.findUser(id));
+  user = new User(repoData, id);
   displayUser();
-  console.log('getHydraData(hydraDataSamples): ', getHydraData(hydraDataSamples));
-  displayUserHydra(getHydraData(hydrationData));
+  let hydraWeek = user.findPastData(user.hydration, 7)
+  displayHydraChart(hydraWeek);
+  //console.log('getHydraData(hydraDataSamples): ', getHydraData(hydraDataSamples));
+  //displayHydra(getHydration());
+  //data.push(dataUser, dataHydration, dataSleep, dataActivity);
+  //repoData = new UserRepository(data);
 }
 
 function displayUser() {
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let userList = document.getElementsByClassName("user");
+  console.log('userList: ', userList);
   userList[0].innerText = user.name;
   userList[1].innerText = user.address;
   userList[2].innerText = user.email;
   userList[3].innerText = user.dailyStepGoal;
-  userList[4].innerText = repoData.findAvgStepGoal();
+  userList[4].innerText = repoData.avgStepGoal;
   userList[5].innerText = user.strideLength;
+  userList[6].innerText = user.findPastData(user.hydration, 1)[0].numOunces;
   displayFriends(findFriends());
-  activateFriendBtns();
+  
 }
 
 function findFriends() {
-  // console.log('@createFriends(user):');
-  // console.log("user.friends: ", user.friends);
+  console.log('@createFriends(user):');
+  console.log("user.friends: ", user.friends);
   // console.log('user.friendsData: ', user.friendsData);
   user.friends.forEach(function(friendID) {
     let friend = {};     
@@ -33,8 +47,8 @@ function findFriends() {
     friend.data = repoData.findUser(friendID);
     user.friendsData.unshift(friend);
   });  
-  // console.log('/* @createFriends */');  
-  // console.log('user.friendsData: ', user.friendsData);
+  console.log('/* @createFriends */');  
+  console.log('user.friendsData: ', user.friendsData);
   return user.friendsData;
 }  
 
@@ -56,15 +70,18 @@ function displayFriends(friends) {
   friendsDiv.innerHTML = "";
   // console.log("friendsDiv: ", friendsDiv.innerHTML);
   friends.forEach(function(friend) {
+    console.log('friend: ', friend.data[0].id, friend.id);
+
     let friendHTML = `
-      <div id="divID${friend.data.id}" class="friend" number="${friend.id}">
-        <button id="${friend.data.id}" class="friendBtn" name="${friend.id}">
-          ${friend.data.name}
+      <div id="divID${friend.data[0].id}" class="friend" number="${friend.id}">
+        <button id="${friend.data[0].id}" class="friendBtn" name="${friend.id}">
+          ${friend.data[0].name}
         </button>
       </div>
     `;
     friendsDiv.insertAdjacentHTML("afterbegin", friendHTML);   
   });
+  activateFriendBtns();
 }
 
 function activateFriendBtns() {
@@ -89,46 +106,49 @@ function loadFriend(event) {
     console.log("userSampleFriends", userSampleFriends);
     loadFit(userSampleFriends, id)
   } else 
-  console.log('userData: ', userData);
-  loadFit(userData, id)  
+  //console.log('userData: ', userData);
+  loadFit(data, id)  
 }
 
-function getHydraData(data) {
-  let hydraData = new HydraData(data);
-  hydraData.getHydration(user.id);
-  let hydraDay = user.findPastData(hydraData.data, 1);
-  let hydraWeek = user.findPastData(hydraData.data, 7);
-  let numOunces = user.findNumOunces(user.findPastData(hydraData.data, 7));
-  let hydraAvg = hydraData.findAvg();
-    // console.log('hydraData.data.length: ', hydraData.data.length);
-    // console.log('hydraDay: ', hydraDay);
-    // console.log('hydraWeek: ', hydraWeek);
-    // console.log('numOunces: ', numOunces);
-    // console.log('hydraAvg: ', hydraAvg, hydraData.avg);
-  let allHydraData = [hydraData, hydraDay, hydraWeek]
-  return allHydraData;
+function findHydration(date) {
+  let hydraWeek = user.findPastData(user.hydration, 7);
+  return hydraWeek;
 }
+//   //let hydraData = new HydraData(data);
+//   //hydraData.getHydration(user.id);
+//   let hydraDay = user.findPastData(user.hydration, 1);
+    
+//   let numOunces = user.findNumOunces(user.findPastData(user.hydration, 7));
+//   //let hydraAvg = hydraData.findAvg();
+//     // console.log('hydraData.data.length: ', hydraData.data.length);
+//     // console.log('hydraDay: ', hydraDay);
+//     // console.log('hydraWeek: ', hydraWeek);
+//     // console.log('numOunces: ', numOunces);
+//     // console.log('hydraAvg: ', hydraAvg, hydraData.avg);
+//   let allHydraData = [hydraDay, hydraWeek]
+    
+  
 
-function displayUserHydra(data) {
-  // console.log('...data: ', data);
-  document.getElementById('dayHydraID').innerText = data[1][0].numOunces;
-  displayHydraChart(data[2]);
-}
+// function displayHydra(hydraData) {
+//   console.log('hydraData: ', hydraData);
+//   document.getElementById('dayHydraID').innerText = hydraData[0].numOunces;
+//   displayHydraChart(user.hydration);
+// }
 
 function displayHydraChart(data) {
   anychart.onDocumentReady(function() {
     // console.log("hydraWeek:", data[0].date, data[0].numOunces);
     // set the data
-    var hydraChartData = {
+    let hydraChartData = {
       // header: ["Day", "Hydration number"],
       rows: [
-        [`${data[6].date}`, `${data[6].numOunces}`],
-        [`${data[5].date}`, `${data[5].numOunces}`],
-        [`${data[4].date}`, `${data[4].numOunces}`],
-        [`${data[3].date}`, `${data[3].numOunces}`],
-        [`${data[2].date}`, `${data[2].numOunces}`],
+        [`${data[0].date}`, `${data[0].numOunces}`],
         [`${data[1].date}`, `${data[1].numOunces}`],
-        [`${data[0].date}`, `${data[0].numOunces}`]
+        [`${data[2].date}`, `${data[2].numOunces}`],
+        [`${data[3].date}`, `${data[3].numOunces}`],
+        [`${data[4].date}`, `${data[4].numOunces}`],
+        [`${data[5].date}`, `${data[5].numOunces}`],
+        [`${data[6].date}`, `${data[6].numOunces}`]
     ]};
     // create the chart
     let hydraChart = anychart.bar();
@@ -148,7 +168,18 @@ function displayHydraChart(data) {
   });
 }
 
-loadFit(userData, 1);
+/*
+iteration 3: sleep
+
+**Dashboard:**
+Items to add to the dashboard:
+
+* For a user, their sleep data for the latest day (hours slept and quality of sleep)
+* For a user, their sleep data over the course of the latest week (hours slept and quality of sleep)
+* For a user, their all-time average sleep quality and all-time average number of hours slept
+
+*/
+loadFit(data, 1);
 
 
 //hydraData.findHydrationData(user.id);
