@@ -1,0 +1,198 @@
+* {
+  box-sizing: border-box;
+  /* font-family: 'Encode Sans', sans-serif; */
+   /* 'Condensed', Expanded, Semi Condensed, Semi Expanded' */
+  
+  /* font-family: 'Alegreya Sans', sans-serif; */
+  /* Encode Sans, Condensed, Expanded, Semi Condensed, Semi Expanded */
+}
+
+html {
+  display: grid;
+  background-color: #2196F3;
+  background-color: rgb(15, 27, 35);
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  justify-self: center;
+  padding: 2% 2%;
+}
+
+header {
+  display: grid;
+  width: 100%;
+  height: 70%;
+  padding: 1%;
+  background-color: #2196F3; 
+  text-align: center;
+  align-content: center;
+}
+ /* FitLit GRID SETUP: grid template areas */
+
+#dashboard {
+  display: grid;
+  width:100%; 
+  height: 100%;      
+  padding: 1%;        
+  background-color: #2196F3;
+  background-color: grey; 
+  justify-self: center;
+  align-self: center;
+  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: repeat(9, 1fr);
+  gap: 1%;
+  grid-template-areas:
+    "name name name name name name name name name"
+    "addrss addrss addrss addrss addrss  email  email   email   email"
+    "steps steps steps steps hydration hydration hydration friends friends"
+    "steps steps steps steps hydration hydration hydration friends friends"
+    "steps steps steps steps hydration hydration hydration friends friends"
+    "activity activity activity activity hydration hydration hydration friends friends"
+    "activity activity activity activity hydration hydration hydration friends friends"  
+    "myGoal myGoal stride stride sleep sleep sleep friends friends"
+    "avgGoal avgGoal hydra hydra sleep sleep sleep friends friends";
+}
+
+section {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(15, 27, 35);
+  padding: 5px;
+  font-size: .75em;
+  font-weight: 800;
+  margin: 0;
+  color: #2196F3;
+  display: grid;
+  grid-template-rows: 25px auto;  
+  padding: 5px;
+}
+
+div {
+  display: grid;
+  align-items: center;
+  width: 100%;
+}
+
+.main {
+  padding: 5px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 800;
+  color: rgb(15, 27, 35);
+  background-color: cyan;
+  width: 100%;
+}
+
+.line {
+  padding-left: 20px;
+  justify-content: left;
+}
+
+.friends {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.friend {
+  color: grey;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 10px;
+  align-items: normal;
+}
+
+.num {
+  /* font-family: 'Encode Sans-Condensed'; */
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+#hydra {
+  background-color: black;
+  height: 100%;
+}
+
+#hydra-container {
+  background-color: cyan;
+  padding: 10px;
+}
+
+/* GRID-areas */
+
+#s0  {
+  grid-area: name;
+}
+
+#s1 {
+  grid-area: addrss;
+}
+
+#s2 {
+  grid-area: email;
+}
+
+#s3 {
+  grid-area: steps;
+}
+
+#s41 {
+  grid-area: myGoal;
+
+}
+
+#s42 {
+  grid-area: avgGoal;  
+}
+
+#s51 {
+  grid-area: stride;
+}
+
+#s52 {
+  grid-area: hydra;
+}
+
+#s6 {
+  grid-area: hydration; 
+}
+
+#s7 {
+  grid-area: activity;
+}
+
+#s8 {
+  grid-area: sleep;
+}
+
+#s9 {
+  grid-area: friends;
+  display: grid;
+  grid-template-rows: 25px auto;  
+  padding: 5px;
+}
+
+
+/* 
+.info-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 10px 5px 0;
+  margin: 0;
+  color: grey;
+  font-size: 1em;
+  height: 100%;
+} */
+
+
+

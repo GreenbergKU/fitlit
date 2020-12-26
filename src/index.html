@@ -1,16 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap" rel="stylesheet">     -->
+    <link rel="stylesheet" type="text/css" href="../style/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style/styles.css">
+    
     <title>Activity Tracker</title>
   </head>
   <body>
-    <h1>Activity Tracker</h1>
+    <header> 
+      <h1 class="greeting">GREETING: user.firstName()</h1>  
+    </header>
+    <main id="dashboard">
+      <section class="sec0" id="s0" name="name-sec">
+        0 full name
+        <div id="nameId" class="name line main user"></div>
+      </section>
+      <section class="sec1" id="s1" name="address-sec">
+        1 address 
+        <div id="addressId" class="address line main user" value="">123 W. 1st St</div>    
+      </section>
+      <section class="sec2" id="s2" name="email-sec">
+        2 email 
+        <div id="emailId" class="email line main user" value="">
+          @gmail 
+        </div>
+      </section>
+      <section class="sec3" id="s3" name="steps-sec">  
+        STEPS 
+        <div id="stepsId" class="steps main"></div>
+      </section>
+      <section class="sec41 goal" id="s41" name="myGoal-sec">
+        DAILY STEP GOAL 
+        <div id="myGoal" class="num main user"></div>
+      </section>
+      <section class="sec42 goal" id="s42" name="avgGoal-sec">
+        AVG STEP GOAL 
+        <div id="avgGoal" class="num main user"></div>    
+      </section>
+      
+      <section class="sec51" id="s51" name="stride-sec">
+        MY STRIDE
+        <div id="strideId" class="num main user"></div>
+      </section>
 
+      <section class="sec52" id="s52" name="dayHydra-sec">
+        TODAY'S HYDRATION 
+        <div id="dayHydraID" class="num main user"></div>
+      </section>
+
+      <section class="sec6" id="s6" name="hydration-sec">
+        HYDRATION-CHART 
+        <article id="hydra-container" class="hydra-chart main"></article>
+      </section>
+
+      <section class="sec7" id="s7" name="activity-sec">
+        ACTIVITY 
+        <div id="actId" class="activity main"></div>
+      </section>
+      <section class="sec8" id="s8" name="sleep-sec">
+        SLEEP
+        <div id="sleepId" class="sleep main"></div>
+      </section>
+      <section class="sec9" id="s9" name="friends-sec">
+        FRIENDS
+        <div id="friendsId" class="friends main user">
+          <div id="friend1" class="friend" name="">friendName1</div>         
+        </div>   
+      </section>
+    </main>
+    <footer></footer>
+    <!-- <script type="text/javascript" src="canvasjs.min.js"></script> -->
+  
     <script type="text/javascript" src="../data/users.js"></script>
     <script type="text/javascript" src="../data/hydration.js"></script>
     <script type="text/javascript" src="../data/sleep.js"></script>
     <script type="text/javascript" src="../data/activity.js"></script>
+    <!-- <script type="text/javascript" src="../data/samples.js"></script> -->
+    <script type="text/javascript" src="./UserRepository.js"></script>
+    <script type="text/javascript" src="./User.js"></script>
+    <script type="text/javascript" src="./HydraData.js"></script>
+    <!-- <script type="text/javascript" src="./Hydration.js"></script> -->
+    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
     <script type="text/javascript" src="./scripts.js"></script>
   </body>
 </html>
