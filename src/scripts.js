@@ -16,11 +16,11 @@ function loadFit(data, id) {
   displayUser();
   let hydraWeek = user.findPastData(user.hydration, 7)
   displayHydraChart(hydraWeek);
+}
   //console.log('getHydraData(hydraDataSamples): ', getHydraData(hydraDataSamples));
   //displayHydra(getHydration());
   //data.push(dataUser, dataHydration, dataSleep, dataActivity);
   //repoData = new UserRepository(data);
-}
 
 function displayUser() {
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
@@ -34,7 +34,6 @@ function displayUser() {
   userList[5].innerText = user.strideLength;
   userList[6].innerText = user.findPastData(user.hydration, 1)[0].numOunces;
   displayFriends(findFriends());
-  
 }
 
 function findFriends() {
@@ -114,26 +113,6 @@ function findHydration(date) {
   let hydraWeek = user.findPastData(user.hydration, 7);
   return hydraWeek;
 }
-//   //let hydraData = new HydraData(data);
-//   //hydraData.getHydration(user.id);
-//   let hydraDay = user.findPastData(user.hydration, 1);
-    
-//   let numOunces = user.findNumOunces(user.findPastData(user.hydration, 7));
-//   //let hydraAvg = hydraData.findAvg();
-//     // console.log('hydraData.data.length: ', hydraData.data.length);
-//     // console.log('hydraDay: ', hydraDay);
-//     // console.log('hydraWeek: ', hydraWeek);
-//     // console.log('numOunces: ', numOunces);
-//     // console.log('hydraAvg: ', hydraAvg, hydraData.avg);
-//   let allHydraData = [hydraDay, hydraWeek]
-    
-  
-
-// function displayHydra(hydraData) {
-//   console.log('hydraData: ', hydraData);
-//   document.getElementById('dayHydraID').innerText = hydraData[0].numOunces;
-//   displayHydraChart(user.hydration);
-// }
 
 function displayHydraChart(data) {
   anychart.onDocumentReady(function() {
@@ -168,6 +147,9 @@ function displayHydraChart(data) {
   });
 }
 
+loadFit(data, 1);
+
+
 /*
 iteration 3: sleep
 
@@ -179,8 +161,27 @@ Items to add to the dashboard:
 * For a user, their all-time average sleep quality and all-time average number of hours slept
 
 */
-loadFit(data, 1);
 
+// //////// NOTES ////////////
+
+//   //let hydraData = new HydraData(data);
+//   //hydraData.getHydration(user.id);
+//   let hydraDay = user.findPastData(user.hydration, 1);
+    
+//   let numOunces = user.findNumOunces(user.findPastData(user.hydration, 7));
+//   //let hydraAvg = hydraData.findAvg();
+//     // console.log('hydraData.data.length: ', hydraData.data.length);
+//     // console.log('hydraDay: ', hydraDay);
+//     // console.log('hydraWeek: ', hydraWeek);
+//     // console.log('numOunces: ', numOunces);
+//     // console.log('hydraAvg: ', hydraAvg, hydraData.avg);
+//   let allHydraData = [hydraDay, hydraWeek]
+    
+// function displayHydra(hydraData) {
+//   console.log('hydraData: ', hydraData);
+//   document.getElementById('dayHydraID').innerText = hydraData[0].numOunces;
+//   displayHydraChart(user.hydration);
+// }
 
 //hydraData.findHydrationData(user.id);
 // console.log(
