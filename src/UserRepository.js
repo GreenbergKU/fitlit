@@ -1,41 +1,3 @@
-//const HydraData = require("./HydraData");
-/*
-class UserRepository {
-  constructor(userData, hydrationData, sleepData, activityData) {
-    this.data = userData;
-    this.avgStepGoalAll = this.findAvg(this.data, "dailyStepGoal");
-    this.hydrationData = hydrationData;
-    
-    this.sleepData = sleepData;
-    this.avgSleepQualityAll = this.findAvg(this.sleepData, "sleepQuality"); 
-    this.activityData = activityData;
-    //console.log('this.stepAvg: ', this.stepAvg);
-  }
-
-  findUser(id) {
-    return this.data.filter(user => user.id === id)[0];
-  }
-
-  findAvgStepGoal() {
-    let stepGoalSum = 0;
-    this.data.forEach(user => stepGoalSum += user.dailyStepGoal);
-    return stepGoalSum / this.data.length;
-  }
-
-  findAvg(data, property) {
-    console.log('data: ', data);
-    
-    let sum = 0;
-    data.forEach( user => sum += user[property] );
-    return sum / data.length;
-  }
-}
-
-if (typeof module !== 'undefined') {
-  module.exports = UserRepository;
-}
-*/
-
 class UserRepository {
   constructor(data) {
     // data = [userData, hydrationData, sleepData, activityData];
@@ -69,7 +31,7 @@ class UserRepository {
   }
 }  
 /*
-iteration3: sleep
+iteration 3: sleep
 
 * For a user (identified by their `userID`), the average number of hours slept per day
 * For a user, their average sleep quality per day over all time
@@ -90,14 +52,3 @@ Items to add to the dashboard:
 * For a user, their all-time average sleep quality and all-time average number of hours slept
 
 */
-
-
-
-
-  // findAvg() {
-  //   let stepGoalSum = 0;
-  //   this.data.forEach(user => stepGoalSum += user.dailyStepGoal);
-  //   this.avgStepAll = stepGoalSum / this.data.length;
-  //   this.sleepData.forEach(userDay => sleepSum += userDay.sleepQuality);
-  //   this.avgSleepQualityAll = sleepSum / sleepData.length;
-
