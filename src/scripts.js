@@ -1,52 +1,46 @@
-let data = [userData, hydrationData, sleepData, activityData];
-console.log('data: ', data.length);
+const data = [userData, hydrationData, sleepData, activityData];
 let user;
 let repoData;
-/*
-// let repo = new UserRepository(userData, hydrationData, sleepData, activityData);
-// let userRepoData = repo.findUser(1);
-// new User(repo, userRepoData[0]);
-*/
 
 function loadFit(data, id) {
-  console.log('@loadFit(data):');
-  //data = (userData, hydrationData, sleepData, activityData);
-  repoData = new UserRepository(data);
-  user = new User(repoData, id);
-  displayUser();
-  let hydraWeek = user.findPastData(user.hydration, 7)
-  displayHydraChart(hydraWeek);
-}
-  //console.log('getHydraData(hydraDataSamples): ', getHydraData(hydraDataSamples));
-  //displayHydra(getHydration());
-  //data.push(dataUser, dataHydration, dataSleep, dataActivity);
-  //repoData = new UserRepository(data);
+  console.log('@loadFit(data):');  
 
-function displayUser() {
+  repoData = new UserRepository(data);
+  //dataUser = repoData.findUser(id)[0];
+  user = new User(repoData, id);
+  let currHydraWeek = user.findDateSpan(user.hydration, 7);
+  let currSleepWeek = user.findDateSpan(user.sleep, 7);
+  displayUser(currHydraWeek, currSleepWeek);
+}
+
+function displayUser(weekHydra, weekSleep) {
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let userList = document.getElementsByClassName("user");
-  console.log('userList: ', userList);
+  console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
+
   userList[0].innerText = user.name;
-  userList[1].innerText = user.address;
+  userList[1].innerText = fixZip();
   userList[2].innerText = user.email;
   userList[3].innerText = user.dailyStepGoal;
-  userList[4].innerText = repoData.avgStepGoal;
+  userList[4].innerText = repoData.findAvg(repoData.data, "dailyStepGoal");
   userList[5].innerText = user.strideLength;
-  userList[6].innerText = user.findPastData(user.hydration, 1)[0].numOunces;
+  userList[6].innerText = weekHydra[6].numOunces;
+  console.log('/**/ weekSleep[6] /**/ : ', weekSleep[6]);
+  userList[7].innerText = weekSleep[6].hoursSlept;
+  userList[8].innerText = weekSleep[6].sleepQuality;
+
+  displayHydraChart(weekHydra);
   displayFriends(findFriends());
 }
 
 function findFriends() {
-  console.log('@createFriends(user):');
-  console.log("user.friends: ", user.friends);
-  // console.log('user.friendsData: ', user.friendsData);
+  console.log('/* @createFriends */');  
   user.friends.forEach(function(friendID) {
     let friend = {};     
     friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
     friend.data = repoData.findUser(friendID);
     user.friendsData.unshift(friend);
   });  
-  console.log('/* @createFriends */');  
   console.log('user.friendsData: ', user.friendsData);
   return user.friendsData;
 }  
@@ -63,18 +57,13 @@ console.log('user.friends: ', user.friends);
 //// ^^^^^^^^^^^^^^
 
 function displayFriends(friends) {
-  // console.log('friends: ', friends);
   let friendsDiv = document.getElementById("friendsId");
-  // console.log("friendsDiv.innerHTML: ", friendsDiv.innerHTML);
   friendsDiv.innerHTML = "";
-  // console.log("friendsDiv: ", friendsDiv.innerHTML);
   friends.forEach(function(friend) {
-    console.log('friend: ', friend.data[0].id, friend.id);
-
     let friendHTML = `
       <div id="divID${friend.data[0].id}" class="friend" number="${friend.id}">
         <button id="${friend.data[0].id}" class="friendBtn" name="${friend.id}">
-          ${friend.data[0].name}
+          ${friend.data[0].name} "${friend.id}"
         </button>
       </div>
     `;
@@ -85,38 +74,21 @@ function displayFriends(friends) {
 
 function activateFriendBtns() {
   let friendBtns = document.getElementsByClassName('friendBtn');
-  console.log('friendBtns: ', friendBtns);
   let i = friendBtns.length - 1;
   while(i >= 0) { 
-    console.log(friendBtns[i].id);
     friendBtns[i].addEventListener('click', loadFriend);
     i--;
   };
 }
 
 function loadFriend(event) {
-  console.log(repoData.data.length);
-  console.log("event.target", event.target);
-  console.log('event.target.id: ', event.target.id);
+  console.log('event.target: ', event.target, event.target.id);
   let id = Number(event.target.id);
-  console.log('id: ', id);
-  
-  if(repoData.data.length < 6) {
-    console.log("userSampleFriends", userSampleFriends);
-    loadFit(userSampleFriends, id)
-  } else 
-  //console.log('userData: ', userData);
-  loadFit(data, id)  
-}
-
-function findHydration(date) {
-  let hydraWeek = user.findPastData(user.hydration, 7);
-  return hydraWeek;
+  loadFit(data, id);
 }
 
 function displayHydraChart(data) {
   anychart.onDocumentReady(function() {
-    // console.log("hydraWeek:", data[0].date, data[0].numOunces);
     // set the data
     let hydraChartData = {
       // header: ["Day", "Hydration number"],
@@ -135,16 +107,19 @@ function displayHydraChart(data) {
     hydraChart.data(hydraChartData);
     // set the chart title
     hydraChart.title("WEEKLY HYDRATION");
-    let hydraContainer = document.getElementById('hydra-container');
-    
+    let hydraContainer = document.getElementById('hydra-container');  
     hydraContainer.innerHTML = "";
-    console.log('hydraContainer: ', hydraContainer.innerHTML);
     // draw
     hydraChart.container("hydra-container");
-    console.log('hydraContainer: ', hydraContainer.innerHTML);
-    
     hydraChart.draw();
   });
+}
+
+function fixZip() {
+  let fullZip = user.address.split(" ").pop();
+  let splitZip = user.address.split(" ").pop().split("-");
+  user.address = user.address.replace(fullZip, splitZip[0]);
+  return user.address;
 }
 
 loadFit(data, 1);

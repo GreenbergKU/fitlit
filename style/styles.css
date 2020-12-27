@@ -54,8 +54,8 @@ header {
     "steps steps steps steps hydration hydration hydration friends friends"
     "activity activity activity activity hydration hydration hydration friends friends"
     "activity activity activity activity hydration hydration hydration friends friends"  
-    "myGoal myGoal stride stride sleep sleep sleep friends friends"
-    "avgGoal avgGoal hydra hydra sleep sleep sleep friends friends";
+    "myGoal myGoal stride sleepHrs sleep sleep sleep friends friends"
+    "avgGoal avgGoal hydra sleepQty sleep sleep sleep friends friends";
 }
 
 section {
@@ -171,7 +171,15 @@ div {
   grid-area: activity;
 }
 
-#s8 {
+#s81 {
+  grid-area: sleepHrs;
+}
+
+#s82 {
+  grid-area: sleepQty;
+}
+
+#s83 {
   grid-area: sleep;
 }
 
