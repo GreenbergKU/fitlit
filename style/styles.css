@@ -42,7 +42,7 @@ header {
   background-color: grey; 
   justify-self: center;
   align-self: center;
-  grid-template-rows: repeat(9, auto);
+  grid-template-rows: repeat(11, auto);
   grid-template-columns: repeat(9, 1fr);
   gap: 1%;
   grid-template-areas:
@@ -53,8 +53,10 @@ header {
     "myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends"
     "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
     "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends" 
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs sleepHrs friends  friends"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty sleepQty friends  friends"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs frChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty frChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg frChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty frChalng frChalng frChalng"
   ;
 }
 
@@ -197,7 +199,7 @@ span {
   display: grid;
   align-content: end;
   height: 100%;
-  grid-template-columns: repeat(6, auto);
+  grid-template-columns: repeat(7, auto);
   column-gap: 5px;  
   /* grid-template-columns: repeat(3, auto); */
   /* grid-template-rows: auto auto; */
@@ -284,10 +286,15 @@ span {
 }
 
 #hydra-container {
-  background-color: cyan;
-  padding:10px;  
+  /* background-color: cyan; */
+  padding: 10px;  
   font-size: 10px;
   font-weight: 400;
+}
+
+#sleep-container {
+  padding: 10px;
+  align-items: normal;
 }
 
 /* GRID-areas */
@@ -368,11 +375,27 @@ span {
   grid-area: sleepSec;
 }
 
+#s84 {
+  grid-area: slpWkAvg;
+}
+
+#s85 {
+  grid-area: slpWkQty;
+}
+
 #s9 {
   grid-area: friends;
   display: grid;
   grid-template-rows: 25px auto;  
   padding: 5px;
+}
+
+#s92 {
+  grid-area: frChalng;
+}
+
+.hidden {
+  display: none;
 }
 
 /* 
