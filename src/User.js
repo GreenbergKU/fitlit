@@ -1,8 +1,8 @@
 class User {
   constructor(data, numID) {
     console.log('@USER: ', 'data: ', data);
-    console.log("data.findUser(numID)[0]: ", data.findUser(numID)[0]); 
-    
+    console.log("data.findUser(numID)[0]: ", data.findUser(numID)[0]);
+       
     this.userData = data.findUser(numID)[0]; 
     this.id = this.userData.id;
     this.name = this.userData.name;
@@ -18,11 +18,7 @@ class User {
     this.sleep = this.filterUserID(data.sleepData);
     this.sleepAvgHrs = data.findAvg(this.sleep, "hoursSlept");
     this.sleepQtyAvg = data.findAvg(this.sleep, "sleepQuality");
-    //console.log('findDateSpan(...sleep): ', this.findDateSpan(this.sleep, 7, "2019/09/16"));
-    //console.log('findEachDay(sleep): ', this.findEachDay(this.findDateSpan(this.sleep, 7, "2019/09/16"), "sleepQuality"));
     this.activity = this.filterUserID(data.activityData);
-    //console.log('findDateSpan(...activity): ', this.findDateSpan(this.activity, 1));
-    //this.mustStep = this.activity.numSteps < this.userData.dailyStepsGoal;
   }
 
   firstName() {
@@ -34,9 +30,7 @@ class User {
   }
 
   findDateSpan(data, dayNum, date) { 
- 
-    date = this.validateDate(data, dayNum, date);   
-    
+    date = this.validateDate(data, dayNum, date);       
     let dateIndex = data.findIndex(day => day.date === date);
     return data.slice(dateIndex, dateIndex + dayNum);
   }
@@ -56,7 +50,6 @@ class User {
 
   findDistance(data) {
     let sum = 0;
-    //sum = data.length === 1 ? data.numSteps : 
     data.forEach(day => sum += day.numSteps);
     console.log('sum:', sum, 'strideLength: ', this.strideLength);
     return (sum * this.strideLength / 5280).toFixed(2)
@@ -71,7 +64,6 @@ class User {
   findStepPercentage(dayData) {
     return dayData.numSteps / user.dailyStepGoal * 100;
   }
-  // DASHBOARD
 }
 
 
@@ -144,6 +136,19 @@ const sleepData = [
   x For a user, their sleep quality each day over the course of a given week (7 days) - you should be able to calculate this for any week, not just the latest week  
 
 */
+
+////// NOTES - taken from w/i code above (newest at top)
+
+
+
+//FROM CONSTRUCTOR METHODS...
+  //console.log('findDateSpan(...sleep): ', this.findDateSpan(this.sleep, 7, "2019/09/16"));
+
+  //console.log('findEachDay(sleep): ', this.findEachDay(this.findDateSpan(this.sleep, 7, "2019/09/16"), "sleepQuality"));
+
+  //console.log('findDateSpan(...activity): ', this.findDateSpan(this.activity, 1));
+
+  //this.mustStep = this.activity.numSteps < this.userData.dailyStepsGoal;
 
   // findPastData(data, dayNum) {
   //   console.log('@filterData: ');

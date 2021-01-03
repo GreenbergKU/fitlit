@@ -197,10 +197,10 @@ span {
   display: grid;
   align-content: end;
   height: 100%;
+  grid-template-columns: repeat(6, auto);
+  column-gap: 5px;  
   /* grid-template-columns: repeat(3, auto); */
   /* grid-template-rows: auto auto; */
-  grid-template-columns: repeat(6, auto);
-  column-gap: 5px;
   /* padding-top: 5px; */
 }
 
@@ -239,14 +239,6 @@ span {
   text-align: center;
   width: 85%;
   height: 85%;
-}
-
-
-/*** % ring ***/
-.ring {
-  background: 
-    linear-gradient(270deg, black 50%, transparent 50%), 
-    linear-gradient(0deg, black 75%, lightgray 25%);
 }
 
 .line {
@@ -298,13 +290,6 @@ span {
   font-weight: 400;
 }
 
-/* #hydra-container > g > g {    
-  width: 100%;
-  text-align: center;
-} */
-
-
-
 /* GRID-areas */
 
 #s0, .name-sec  {
@@ -351,17 +336,21 @@ span {
   grid-area: myStride;
 }
 
-/* #s52 {
+/* 
+#s52 {
   grid-area: dayHydra;
-} */
+} 
+*/
 
 #s6 {
   grid-area: hydraSec; 
 }
 
-/* #s62 {
+/* 
+#s62 {
   grid-area: hydraDay; 
-} */
+} 
+*/
 
 #s7 {
   grid-area: actvSec;
@@ -387,20 +376,16 @@ span {
 }
 
 /* 
-.info-wrapper {
-  display: flex;
-  width: 100%;
-  padding: 10px 5px 0;
-  margin: 0;
-  color: grey;
-  font-size: 1em;
-  height: 100%;
-} */
-
-
-
-/* 
 //// NOTES FOR CSS /////
+
+
+///// % ring //////
+.ring {
+  background: 
+    linear-gradient(270deg, black 50%, transparent 50%), 
+    linear-gradient(0deg, black 75%, lightgray 25%);
+} 
+/////////////////////
 
 ** LINEAR GRADIENT NOTES ** : https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
 
@@ -414,4 +399,23 @@ span {
 <color-hint>
     The color-hint is an interpolation hint defining how the gradient progresses between adjacent color stops. The length defines at which point between two color stops the gradient color should reach the midpoint of the color transition. If omitted, the midpoint of the color transition is the midpoint between two color stops.
 
+*/
+
+/* 
+  #hydra-container > g > g {    
+    width: 100%;
+    text-align: center;
+  }  
+*/
+
+/* 
+.info-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 10px 5px 0;
+  margin: 0;
+  color: grey;
+  font-size: 1em;
+  height: 100%;
+} 
 */
