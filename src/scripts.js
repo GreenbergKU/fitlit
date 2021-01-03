@@ -13,12 +13,12 @@ function loadFit(data, id) {
 }
 
 function displayUser(weekHydra, weekSleep, weekActivity) {
-  document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let userList = document.getElementsByClassName("user");
   console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
-
+  document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
   let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs");
+  
   userList[0].innerText = user.name; //name
   userList[1].innerText = fixZip(); //address
   userList[2].innerText = user.email; //email
@@ -29,174 +29,119 @@ function displayUser(weekHydra, weekSleep, weekActivity) {
   userList[7].innerText = weekSleep[6].sleepQuality;
   userList[8].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
   userList[9].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
-
+  userList[10].innerText = repoData.findAvg(weekSleep, "hoursSlept");
+  userList[11].innerText = repoData.findAvg(weekSleep, "sleepQuality");
   displayHydraChart(weekHydra);
   displayFriends(findFriends());
   displayDayActivity(weekActivity);
+  displayWkSleepChart(weekSleep)
 }
 
-function displayDayActivity(weekData) {
-  //console.log('dayData: ', dayData[0].numSteps, user.dailyStepGoal);
-  console.log('weekData: ', weekData); 
-  //actDay **only** 
-  let actDay = document.getElementsByClassName('actDay-user');
-  let percent = user.compareStepData(weekData[6]) ? 100 : user.findStepPercentage(weekData[6]);
-  actDay[0].style.background = createBorder(percent);
-  actDay[1].innerText = weekData[6].numSteps
-  actDay[2].innerText = user.findDistance(weekData.slice(-1));
-  actDay[2].innerText = user.findDistance([weekData[6]]);
-  //actDay **only** 
-
-  //wkAct **only** 
-  let index = 5;
-  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
-    console.log('border: ', border);
-    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
-    border.style.background = createBorder(percent);  
-    border.nextElementSibling.innerText = removeYear(weekData[index].date);
-    fillActText(weekData[index], border.firstElementChild.children);
-    index--;
-  });
-  //wkAct **only** 
-}
-
-function fillActText(dayData, element) {
-  console.log('dayData: ', dayData);
-  element[0].firstElementChild.innerText = dayData.numSteps;
-  element[1].firstElementChild.children[0].innerText = user.findDistance([dayData]);
-  console.log('element[0].firstElementChild: ', element[0].firstElementChild); 
-  // p#wkAct-numStep.actWk.wkAct-num
-  console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
-  //p#wkAct-numDist.actWk.wkAct-num
-}
-
-function createBorder(percent) {
-  let color1, color2, color3, color4, degrees;
-  percent <= 50 ? (
-    color1 = "grey",
-    color2 = "transparent",
-    degrees = 90 + (percent * 3.6),
-    color3 = "red",
-    color4 = color1
-  ) : (
-    color1 = "transparent",
-    color2 = "red",
-    degrees = 90 + ((percent-50) * 3.6), 
-    color3 = "grey",
-    color4 = color2
-  );
-  // console.log('degrees: ', degrees);
-  // console.log('percent: ', percent);
-  let background = `
-    linear-gradient(90deg, ${color1} 50%, ${color2} 50%),
-    linear-gradient(${degrees}deg, ${color3} 50%, ${color4} 50%)
-  `;
-  return percent >= 100 ? "green" : background;
-}
-
-
-function findFriends() {
-  console.log('/* @createFriends */');  
-  user.friends.forEach(function(friendID) {
-    let friend = {};     
-    friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
-    friend.data = repoData.findUser(friendID);
-    user.friendsData.unshift(friend);
-  });  
-  console.log('user.friendsData: ', user.friendsData);
-  return user.friendsData;
-}  
-
-//// ADD TO TESTS!!!
-/*
-let findFriends = [];
-user.friendsData.forEach(friend => findFriends.push(friend.data.id));
-console.log(user.friends.join(" ") === findFriends.join(" "));
-
-console.log('findFriends: ', findFriends);
-console.log('user.friends: ', user.friends);
-*/
-//// ^^^^^^^^^^^^^^
-
-function displayFriends(friends) {
-  let friendsDiv = document.getElementById("friendsId");
-  friendsDiv.innerHTML = "";
-  friends.forEach(function(friend) {
-    let friendHTML = `
-      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">${friend.data[0].name}
-        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">'${friend.id}'</button>
-      </div>
-    `;
-    friendsDiv.insertAdjacentHTML("afterbegin", friendHTML);   
-  });
-  activateFriendBtns();
-}
-
-function activateFriendBtns() {
-  let friendBtns = document.getElementsByClassName('friendBtn');
-  let i = friendBtns.length - 1;
-  while(i >= 0) { 
-    friendBtns[i].addEventListener('click', loadFriend);
-    i--;
-  };
-}
-
-function loadFriend(event) {
-  console.log(
-    'event.target: ', event.target, 
-    'event.target.parentNode.id: ', event.target.parentNode.id,
-    'event.target.id.split("-")[1]: ', event.target.id.split("-")[1],
-  );
-  let id = Number(event.target.id.split("-")[1]);
-  loadFit(data, id);
-}
-
-function displayHydraChart(data) {
-  console.log('data[0].date: ', removeYear(data[0].date));
+function displayWkSleepChart(data) {
+  console.log('@wkSleepChart: ', 'data= ', data);
   data.forEach(day => day.date = removeYear(day.date));
-  // data = weekHydra
+  
+  anychart.onDocumentReady(function () {
+  
+    // create data set on our data
+    var dataSet = anychart.data.set(getData());
+  
+    // map data for the first series
+    var firstSeriesData = dataSet.mapAs({
+      x: 0,
+      value: 2
+    });
+  
+    // map data for the second series
+    var secondSeriesData = dataSet.mapAs({
+      x: 0,
+      value: 1
+    });
+  
+    // create line chart
+    let chart = anychart.column();
 
-  anychart.onDocumentReady(function() {
-    // set the data
-    let hydraChartData = {
-      // header: ["Day", "Hydration number"],
-      rows: [
-        [`${data[0].date}`, `${data[0].numOunces}`],
-        [`${data[1].date}`, `${data[1].numOunces}`],
-        [`${data[2].date}`, `${data[2].numOunces}`],
-        [`${data[3].date}`, `${data[3].numOunces}`],
-        [`${data[4].date}`, `${data[4].numOunces}`],
-        [`${data[5].date}`, `${data[5].numOunces}`],
-        [`${data[6].date}`, `${data[6].numOunces}`]
-      ]};
-    // create the chart
-    let hydraChart = anychart.line();
-    console.log('anychart.bar: ', anychart.bar);
-    console.log('anychart.bar: ', anychart.line);
+    // turn on chart animation
+    chart.animation(true);
 
-    // add data
-    hydraChart.data(hydraChartData);
-    // set the chart title
-    hydraChart.title("WEEKLY HYDRATION");
-    let hydraContainer = document.getElementById('hydra-container');  
-    hydraContainer.innerHTML = "";
+    chart.padding(0, 5, 10, 5);
+
+    // disable Y axis
+    chart.yAxis(false);
+
+    // set X axis title
+    chart.xAxis().title(false).stroke('black', 2);
+
+    chart.xAxis().ticks().enabled(false);
+
+    // force chart to stack values by Y scale
+    chart.yScale().stackMode('value');
+
+    // set chart title
+    chart.title('Weekly Sleep Chart');
+
+    // create data-area and set background settings
+    chart
+      .dataArea()
+      .background()
+      .enabled(true)
+      .fill('#456')
+      .corners(15, 15, 0, 0);
+
+    // set grid settings
+    chart
+      .xGrid()
+      .stroke('#fff .1')
+      .isMinor(true)
+      .drawFirstLine(false)
+      .drawLastLine(false);
+
+    chart
+      .yGrid()
+      .stroke('#fff .1')
+      .isMinor(true)
+      .drawFirstLine(false)
+      .drawLastLine(false);
+
+    // create first series with mapped data
+    var firstSeries = chart.column(firstSeriesData);
+    firstSeries.name('Total Sleep (hrs)');
+
+    // create second series with mapped data
+    var secondSeries = chart.line(secondSeriesData);
+    secondSeries.name('Quality Sleep (hrs)');
+
+    // turn the legend on
+    chart
+      .legend()
+      .enabled(true)
+      .fontSize(8)
+      .fontColor('white')
+      .positionMode('inside')
+      .margin({ top: 0 });
+
+    // set container id for the chart
+    chart.container('container');
+    let sleepContainer = document.getElementById('sleep-container');  
+    sleepContainer.innerHTML = "";
     // draw
-    hydraChart.container("hydra-container");
-    hydraChart.draw();
-  });
+    chart.container("sleep-container");
+    // initiate chart drawing
+    chart.draw();
+  })
+
+  function getData() {
+    return [
+      [`${data[0].date}`, `${data[0].sleepQuality}`, `${data[0].hoursSlept}`],
+      [`${data[1].date}`, `${data[1].sleepQuality}`, `${data[1].hoursSlept}`],
+      [`${data[2].date}`, `${data[2].sleepQuality}`, `${data[2].hoursSlept}`],
+      [`${data[3].date}`, `${data[3].sleepQuality}`, `${data[3].hoursSlept}`],
+      [`${data[4].date}`, `${data[4].sleepQuality}`, `${data[4].hoursSlept}`],
+      [`${data[5].date}`, `${data[5].sleepQuality}`, `${data[5].hoursSlept}`],
+      [`${data[6].date}`, `${data[6].sleepQuality}`, `${data[6].hoursSlept}`]
+    ]
+  }
 }
-
-function removeYear(date) {
-  return date.split("/").slice(1).join("/");
-}
-
-function displayWkActChart() {
-  /*
-
-  */
-}
-
-function displayWkSleepChart() {}
   /*
   anychart.onDocumentReady(function () {
   
@@ -326,6 +271,178 @@ function getData() {
     //   return b
     // },
   */    
+
+function displayHydraChart(data) {
+  console.log('data[0].date: ', removeYear(data[0].date));
+  data.forEach(day => day.date = removeYear(day.date));
+  // data = weekHydra
+  anychart.onDocumentReady(function() {
+    // set the data
+    let hydraChartData = {
+      // header: ["Day", "Hydration number"],
+      rows: [
+        [`${data[0].date}`, `${data[0].numOunces}`],
+        [`${data[1].date}`, `${data[1].numOunces}`],
+        [`${data[2].date}`, `${data[2].numOunces}`],
+        [`${data[3].date}`, `${data[3].numOunces}`],
+        [`${data[4].date}`, `${data[4].numOunces}`],
+        [`${data[5].date}`, `${data[5].numOunces}`],
+        [`${data[6].date}`, `${data[6].numOunces}`]
+      ]};
+    // create the chart
+    let hydraChart = anychart.line();
+    console.log('anychart.bar: ', anychart.bar);
+    console.log('anychart.bar: ', anychart.line);
+
+    // add data
+    hydraChart.data(hydraChartData);
+    // set the chart title
+    hydraChart.title("WEEKLY HYDRATION");
+    let hydraContainer = document.getElementById('hydra-container');  
+    hydraContainer.innerHTML = "";
+    // draw
+    hydraChart.container("hydra-container");
+    hydraChart.draw();
+  });
+}
+
+function displayDayActivity(weekData) {
+  //console.log('dayData: ', dayData[0].numSteps, user.dailyStepGoal);
+  console.log('weekData: ', weekData); 
+  //actDay **only** 
+  let actDay = document.getElementsByClassName('actDay-user');
+  let percent = user.compareStepData(weekData[6]) ? 100 : user.findStepPercentage(weekData[6]);
+  actDay[0].style.background = createBorder(percent);
+  actDay[1].innerText = weekData[6].numSteps
+  actDay[2].innerText = user.findDistance(weekData.slice(-1));
+  actDay[2].innerText = user.findDistance([weekData[6]]);
+  //actDay **only** 
+
+  /*
+  let index = 5;
+  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
+    console.log('border: ', border);
+    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
+    border.style.background = createBorder(percent);  
+    border.nextElementSibling.innerText = removeYear(weekData[index].date);
+    fillActText(weekData[index], border.firstElementChild.children);
+    index--;
+  });
+  */  
+ 
+  //wkAct **only** 
+  let index = 0;
+  let wkActGrid = document.getElementById('wk-act-grid');
+  let cir7 = document.getElementById('wkAct-7');
+
+  weekData[6].date != user.activity.slice(-1)[0].date ?   
+    cir7.classList.remove('hidden') : wkActGrid.style.gridTemplateColumns = "repeat(6, auto)";
+  
+  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
+    console.log('border: ', border);
+
+    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
+    border.style.background = createBorder(percent);  
+    border.nextElementSibling.innerText = removeYear(weekData[index].date);
+    fillActText(weekData[index], border.firstElementChild.children);
+    index++;
+  });
+  //wkAct **only** 
+}
+
+function fillActText(dayData, element) {
+  //console.log('dayData: ', dayData);
+  element[0].firstElementChild.innerText = dayData.numSteps;
+  element[1].firstElementChild.children[0].innerText = user.findDistance([dayData]);
+  //console.log('element[0].firstElementChild: ', element[0].firstElementChild); 
+  // p#wkAct-numStep.actWk.wkAct-num
+  //console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
+  //p#wkAct-numDist.actWk.wkAct-num
+}
+
+function createBorder(percent) {
+  let color1, color2, color3, color4, degrees;
+  percent <= 50 ? (
+    color1 = "grey",
+    color2 = "transparent",
+    degrees = 90 + (percent * 3.6),
+    color3 = "red",
+    color4 = color1
+  ) : (
+    color1 = "transparent",
+    color2 = "red",
+    degrees = 90 + ((percent-50) * 3.6), 
+    color3 = "grey",
+    color4 = color2
+  );
+  // console.log('degrees: ', degrees);
+  // console.log('percent: ', percent);
+  let background = `
+    linear-gradient(90deg, ${color1} 50%, ${color2} 50%),
+    linear-gradient(${degrees}deg, ${color3} 50%, ${color4} 50%)
+  `;
+  return percent >= 100 ? "green" : background;
+}
+
+function findFriends() {
+  console.log('/* @createFriends */');  
+  user.friends.forEach(function(friendID) {
+    let friend = {};     
+    friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
+    friend.data = repoData.findUser(friendID);
+    user.friendsData.unshift(friend);
+  });  
+  console.log('user.friendsData: ', user.friendsData);
+  return user.friendsData;
+}  
+
+//// ADD TO TESTS!!!
+/*
+let findFriends = [];
+user.friendsData.forEach(friend => findFriends.push(friend.data.id));
+console.log(user.friends.join(" ") === findFriends.join(" "));
+
+console.log('findFriends: ', findFriends);
+console.log('user.friends: ', user.friends);
+*/
+//// ^^^^^^^^^^^^^^
+
+function displayFriends(friends) {
+  let friendsDiv = document.getElementById("friendsId");
+  friendsDiv.innerHTML = "";
+  friends.forEach(function(friend) {
+    let friendHTML = `
+      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">${friend.data[0].name}
+        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">'${friend.id}'</button>
+      </div>
+    `;
+    friendsDiv.insertAdjacentHTML("afterbegin", friendHTML);   
+  });
+  activateFriendBtns();
+}
+
+function activateFriendBtns() {
+  let friendBtns = document.getElementsByClassName('friendBtn');
+  let i = friendBtns.length - 1;
+  while(i >= 0) { 
+    friendBtns[i].addEventListener('click', loadFriend);
+    i--;
+  };
+}
+
+function loadFriend(event) {
+  console.log(
+    'event.target: ', event.target, 
+    'event.target.parentNode.id: ', event.target.parentNode.id,
+    'event.target.id.split("-")[1]: ', event.target.id.split("-")[1],
+  );
+  let id = Number(event.target.id.split("-")[1]);
+  loadFit(data, id);
+}
+
+function removeYear(date) {
+  return date.split("/").slice(1).join("/");
+}
 
 function fixZip() {
   let fullZip = user.address.split(" ").pop();

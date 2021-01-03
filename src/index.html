@@ -145,6 +145,7 @@
             </article>
             <p class="wkAct-text">00/00/00</p>
           </div>
+          
           <div class="main-circle-rows">
             <article id="wkAct-d4-border" class="act-c-bor circle-border">
               <div class="smCir">
@@ -161,6 +162,7 @@
             </article>
             <p class="wkAct-text">00/00/00</p>
           </div>
+          
           <div class="main-circle-rows">
             <article id="wkAct-d5-border" class="act-c-bor circle-border">
               <div class="smCir">
@@ -177,7 +179,23 @@
             </article>
             <p class="wkAct-text">00/00/00</p>
           </div>
-          
+         
+          <div id="wkAct-7" class="main-circle-rows hidden">
+            <article id="wkAct-d6-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>          
         </div>
       </section>
       
@@ -192,7 +210,8 @@
 
       <section id="s83" class="sleepChart-sec" name="sleepChart-sec" number="">
         SLEEP-CHART
-        <div id="sleepChart" class="sleep main"></div>
+        <article id="sleep-container" class="sleep-chart main"></article>          
+        </div>
       </section>
 
       <!-- <section id="s32" class="stepDay-sec" name="stepDay-sec" number="">  
@@ -214,10 +233,25 @@
         MY STAIRS / USERS AVG
         <div id="stairs" class="steps num main user"></div>
       </section>
+
+      <section id="s84" class="sleepHrs-sec" name="sleepHrs-sec" number="">
+        SLEEP (WK AVG) 
+        <div id="wkAvg-HrsSleep" class="sleep num main user"></div>
+      </section>
+
+      <section id="s85" class="sleepQty-sec" name="sleepQty-sec" number="">
+        QTY-SLEEP (AVG)
+        <div id="wkAvg-QtySleep" class="sleep num main user"></div>
+      </section>
       
       <section id="s9" class="friends-sec" name="friends-sec" number="">
         MY FRIENDS
-        <div id="friendsId" class="friends main user"></div>   
+        <div id="friendsId" class="friends main"></div>   
+      </section>
+
+      <section id="s92" class="frChallenge-sec" name="friends-sec" number="">
+        FRIEND CHALLENGE
+        <div id="frnd-challenge" class="friends main"></div>   
       </section>
 
     </main>
@@ -231,9 +265,9 @@
     <!-- <script type="text/javascript" src="../data/samples.js"></script> -->
     <script type="text/javascript" src="./UserRepository.js"></script>
     <script type="text/javascript" src="./User.js"></script>
-    <script type="text/javascript" src="./HydraData.js"></script>
+    <!-- <script type="text/javascript" src="./HydraData.js"></script> -->
     <!-- <script type="text/javascript" src="./Hydration.js"></script> -->
-    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="./scripts.js"></script>
   </body>
 </html>
