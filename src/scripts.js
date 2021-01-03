@@ -16,70 +16,48 @@ function displayUser(weekHydra, weekSleep, weekActivity) {
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let userList = document.getElementsByClassName("user");
   console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
-  let dayActivity = weekActivity.slice(-1);
-  console.log('weekActivity.slice(-1): ', weekActivity.slice(-1));
-  console.log('weekActivity: ', weekActivity);
-  console.log('weekActivity[6]: ', weekActivity[6]);
 
+  let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
+  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs");
   userList[0].innerText = user.name; //name
   userList[1].innerText = fixZip(); //address
   userList[2].innerText = user.email; //email
-  //userList[3].innerText = weekActivity[6].numSteps
-  //userList[4].innerText = user.findDistance(weekActivity.slice(-1));
-  userList[5].innerText = user.dailyStepGoal;  
-  userList[6].innerText = user.avgStepGoal;
-  userList[7].innerText = user.strideLength;
-  //userList[8].innerText = weekHydra[6].numOunces;
-  userList[8].innerText = weekSleep[6].hoursSlept;
-  userList[9].innerText = weekSleep[6].sleepQuality;
-  //userList[11].innerText = repoData.findAvg(repoData.activityData, "numSteps");
-  let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
-  userList[10].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
-  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs");
-  userList[11].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
-  //userList[11].innerText = user.findDistance(user.findDateSpan(user.activity, 1));
-  //console.log('userList[11].innerText: ', userList[11].innerText);
-  // userList[11].innerText = 
-  // user.findDistance(dayActivity);
-  //console.log('userList[11].innerText: ', userList[11].innerText);
+  userList[3].innerText = user.dailyStepGoal;  
+  userList[4].innerText = user.avgStepGoal;
+  userList[5].innerText = user.strideLength;
+  userList[6].innerText = weekSleep[6].hoursSlept;
+  userList[7].innerText = weekSleep[6].sleepQuality;
+  userList[8].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
+  userList[9].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
 
   displayHydraChart(weekHydra);
   displayFriends(findFriends());
-  displayDayActivity(weekActivity, dayActivity);
+  displayDayActivity(weekActivity);
 }
 
 function displayDayActivity(weekData) {
   //console.log('dayData: ', dayData[0].numSteps, user.dailyStepGoal);
-  
+  console.log('weekData: ', weekData); 
+  //actDay **only** 
   let actDay = document.getElementsByClassName('actDay-user');
-  console.log('weekData: ', weekData);
   let percent = user.compareStepData(weekData[6]) ? 100 : user.findStepPercentage(weekData[6]);
   actDay[0].style.background = createBorder(percent);
   actDay[1].innerText = weekData[6].numSteps
   actDay[2].innerText = user.findDistance(weekData.slice(-1));
   actDay[2].innerText = user.findDistance([weekData[6]]);
-  //let dayStepPercentage = user.compareStepData(dayData[0]) ? 100 : user.findStepPercentage(dayData[0]);
-  //console.log('weekData: ', weekData);
-  //let percent = user.compareStepData(weekData[0]) ? 100 : user.findStepPercentage(weekData[6]);
-  //border.style.background = createBorder(percent);
-  //console.log("stepPercentage", dayStepPercentage);
-  //.log('user.mustStep: ', user.mustStep);
-  //console.log("percent: ", percent);
-  let wkActs = [];
+  //actDay **only** 
+
+  //wkAct **only** 
   let index = 5;
-  //let allCBs = document.getElementsByClassName('circle-border');  
-  //wkActs.push(wkAct[0], wkAct[1], wkAct[2], wkAct[3], wkAct[4], wkAct[5]);
-  //console.log('circleBorders: ', circleBorders);
   Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
     console.log('border: ', border);
     let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
     border.style.background = createBorder(percent);  
     border.nextElementSibling.innerText = removeYear(weekData[index].date);
     fillActText(weekData[index], border.firstElementChild.children);
-    //console.log("index:", index, border.id, "weekData[i].date: ", weekData[index].date);
     index--;
   });
-
+  //wkAct **only** 
 }
 
 function fillActText(dayData, element) {
@@ -91,31 +69,6 @@ function fillActText(dayData, element) {
   console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
   //p#wkAct-numDist.actWk.wkAct-num
 }
-  // `  
-  //   linear-gradient(270deg, ${borderColor} ${first50}%, transparent 50%), 
-  //   linear-gradient(0deg, ${borderColor} 75%, lightgray 25%)
-  // `;
-
-/* FROM CODEPEN MYCHART
-  var inners = document.getElementsByClassName("inner");
-
-  var day1 = document.getElementById("day1");
-
-  let dataBlue = ["80", "90", "60", "50", "80", "90", "60"];
-
-  let dataPurple = ["30", "40", "15", "25", "30", "25", "35"]
-
-  inners[0].style.height = "50%";
-  inners[1].style.height = "40%";
-
-  day1.firstElementChild.style.height=`${dataBlue[0]}%`;
-  let purple0 = 
-      `${dataPurple[0]}` / `${dataBlue[0]}` * 100;
-  day1.firstElementChild.firstElementChild.style.height = `${purple0}%`;
-
-  console.log(purple0)
-  */
-
 
 function createBorder(percent) {
   let color1, color2, color3, color4, degrees;
@@ -132,8 +85,8 @@ function createBorder(percent) {
     color3 = "grey",
     color4 = color2
   );
-  console.log('degrees: ', degrees);
-  console.log('percent: ', percent);
+  // console.log('degrees: ', degrees);
+  // console.log('percent: ', percent);
   let background = `
     linear-gradient(90deg, ${color1} 50%, ${color2} 50%),
     linear-gradient(${degrees}deg, ${color3} 50%, ${color4} 50%)
@@ -235,7 +188,6 @@ function displayHydraChart(data) {
 
 function removeYear(date) {
   return date.split("/").slice(1).join("/");
-
 }
 
 function displayWkActChart() {
@@ -244,7 +196,7 @@ function displayWkActChart() {
   */
 }
 
-function displayWkSleepChart() {
+function displayWkSleepChart() {}
   /*
   anychart.onDocumentReady(function () {
   
@@ -352,8 +304,7 @@ function getData() {
     ['2015', 863105652, 3185996155]
   ];
 }
-  */
-}
+
     // anychart.bar = 
     // HI = function (a) {
     //     var b = new EI;
@@ -374,8 +325,7 @@ function getData() {
     //   d; c++) b.line(arguments[c]);
     //   return b
     // },
-    
-
+  */    
 
 function fixZip() {
   let fullZip = user.address.split(" ").pop();
@@ -423,6 +373,65 @@ Items to add to the dashboard:
 */
 
 // //////// NOTES ////////////
+
+//function displayUser(weekHydra, weekSleep, weekActivity) {  
+  //let dayActivity = weekActivity.slice(-1);
+  //console.log('weekActivity.slice(-1): ', weekActivity.slice(-1));
+  //console.log('weekActivity: ', weekActivity);
+  //console.log('weekActivity[6]: ', weekActivity[6]);
+
+  //userList[3].innerText = weekActivity[6].numSteps
+  //userList[4].innerText = user.findDistance(weekActivity.slice(-1)); 
+  //userList[8].innerText = weekHydra[6].numOunces;
+  //userList[11].innerText = repoData.findAvg(repoData.activityData, "numSteps");
+  //userList[11].innerText = user.findDistance(user.findDateSpan(user.activity, 1));
+  //console.log('userList[11].innerText: ', userList[11].innerText);
+  // userList[11].innerText = 
+  // user.findDistance(dayActivity);
+  //console.log('userList[11].innerText: ', userList[11].innerText);
+//}
+
+//function displayDayActivity(weekData) {    
+  //let dayStepPercentage = user.compareStepData(dayData[0]) ? 100 : user.findStepPercentage(dayData[0]);
+  //console.log('weekData: ', weekData);
+  //let percent = user.compareStepData(weekData[0]) ? 100 : user.findStepPercentage(weekData[6]);
+  //border.style.background = createBorder(percent);
+  //console.log("stepPercentage", dayStepPercentage);
+  //.log('user.mustStep: ', user.mustStep);
+  //console.log("percent: ", percent);  
+  //let allCBs = document.getElementsByClassName('circle-border');  
+  //wkActs.push(wkAct[0], wkAct[1], wkAct[2], wkAct[3], wkAct[4], wkAct[5]);
+  //console.log('circleBorders: ', circleBorders);
+  //console.log("index:", index, border.id, "weekData[i].date: ", weekData[index].date);
+//}
+
+//function fillActText(dayData, element) {
+  // `  
+  //   linear-gradient(270deg, ${borderColor} ${first50}%, transparent 50%), 
+  //   linear-gradient(0deg, ${borderColor} 75%, lightgray 25%)
+  // `;
+
+  /* FROM CODEPEN MYCHART
+    var inners = document.getElementsByClassName("inner");
+
+    var day1 = document.getElementById("day1");
+
+    let dataBlue = ["80", "90", "60", "50", "80", "90", "60"];
+
+    let dataPurple = ["30", "40", "15", "25", "30", "25", "35"]
+
+    inners[0].style.height = "50%";
+    inners[1].style.height = "40%";
+
+    day1.firstElementChild.style.height=`${dataBlue[0]}%`;
+    let purple0 = 
+        `${dataPurple[0]}` / `${dataBlue[0]}` * 100;
+    day1.firstElementChild.firstElementChild.style.height = `${purple0}%`;
+
+    console.log(purple0)
+    */
+//}
+
 
 //   //let hydraData = new HydraData(data);
 //   //hydraData.getHydration(user.id);
