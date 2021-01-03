@@ -15,72 +15,211 @@
       <h1 class="greeting">GREETING: user.firstName()</h1>  
     </header>
     <main id="dashboard">
-      <section class="sec0" id="s0" name="name-sec">
-        0 full name
+      <section id="s0" class="name-sec" name="name-sec" number="">
+        NAME
         <div id="nameId" class="name line main user"></div>
       </section>
-      <section class="sec1" id="s1" name="address-sec">
-        1 address 
+      
+      <section id="s1" class="address-sec" name="address-sec" number="">
+        ADDRESS 
         <div id="addressId" class="address line main user" value="">123 W. 1st St</div>    
       </section>
-      <section class="sec2" id="s2" name="email-sec">
-        2 email 
+      
+      <section id="s2" class="email-sec" name="email-sec" number="">
+        EMAIL
         <div id="emailId" class="email line main user" value="">
           @gmail 
         </div>
       </section>
-      <section class="sec3" id="s3" name="steps-sec">  
-        STEPS 
-        <div id="stepsId" class="steps main"></div>
+
+      <section id="s31" class="steps-sec" name="steps-sec" number="">  
+        MY DAILY ACTIVITY 
+        <div id="steps-day" class="steps main-circle">
+          <article id ="actDay-border" class="actDay-user circle-border daily-border">
+            <div class="circle">
+              <h5 id="actDay-txtSteps" class="actDay-txt">STEP COUNT:
+                <p class="actDay-user actDay-num user">####</p>
+              </h5>
+              <h5 id="actDay-txtDist" class="actDay-txt">DISTANCE:
+                <span>
+                  <p class="actDay-user actDay-num user">##.##</p> 
+                  <p class="actDay-txtSm">mi</p>
+                </span>
+              </h5>
+            </div>
+          </article>
+        </div>
       </section>
-      <section class="sec41 goal" id="s41" name="myGoal-sec">
-        DAILY STEP GOAL 
-        <div id="myGoal" class="num main user"></div>
+      <section id="s41" class="myGoal-sec" name="myGoal-sec" number="">
+        MY DAILY STEP GOAL
+        <div id="myGoal-avg" class="num main user"></div>
       </section>
-      <section class="sec42 goal" id="s42" name="avgGoal-sec">
-        AVG STEP GOAL 
+      <section id="s42" class="avgGoal-sec" name="avgGoal-sec" number="">
+        USERS AVG STEP GOAL 
         <div id="avgGoal" class="num main user"></div>    
       </section>
-      
-      <section class="sec51" id="s51" name="stride-sec">
+      <section id="s51" class="stride-sec" name="stride-sec" number="">
         MY STRIDE
         <div id="strideId" class="num main user"></div>
       </section>
-
-      <section class="sec52" id="s52" name="dayHydra-sec">
+      <!-- <section id="s52" class="dayHydra-sec" name="dayHydra-sec" number="">
         TODAY'S HYDRATION 
-        <div id="dayHydraID" class="num main user"></div>
-      </section>
-
-      <section class="sec6" id="s6" name="hydration-sec">
+        <div id="dayHydraNum" class="num main user"></div>
+      </section> -->
+      <section id="s6" class="hydra-sec" name="hydra-sec" number="">
         HYDRATION-CHART 
         <article id="hydra-container" class="hydra-chart main"></article>
       </section>
+      <!-- <section id="s62" class="dayHydra-sec" name="dayHydra-sec" number="">
+        HYDRATION
+        <div id="dayHydra" class="main"></div>
+      </section> -->
+      <section id="s7" class="activity-sec" name="activity-sec" number="">
+        WEEKLY ACTIVITY 
+        <div id="wk-act-grid">
+          
+          <div class="main-circle-rows">
+            <article id="wkAct-d0-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p id="wkAct-date" class="wkAct-text">00/00/00</p>
+          </div>
 
-      <section class="sec7" id="s7" name="activity-sec">
-        ACTIVITY 
-        <div id="actId" class="activity main"></div>
+          <div class="main-circle-rows">
+            <article id="wkAct-d1-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p>   
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div class="main-circle-rows">
+            <article id="wkAct-d2-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div class="main-circle-rows">
+            <article id="wkAct-d3-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          <div class="main-circle-rows">
+            <article id="wkAct-d4-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          <div class="main-circle-rows">
+            <article id="wkAct-d5-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+        </div>
       </section>
       
-      <section class="sec81" id="s81" name="sleepHrs-sec">
+      <section id="s81" class="sleepHrs-sec" name="sleepHrs-sec" number="">
         HOURS SLEPT
         <div id="sleepHrs" class="sleep num main user"></div>
       </section>
-      <section class="sec82" id="s82" name="sleepQty-sec">
+      <section id="s82" class="sleepQty-sec" name="sleepQty-sec" number="">
         QTY-SLEEP
         <div id="sleepQty" class="sleep num main user"></div>
       </section>
-      <section class="sec83" id="s83" name="sleepChart-sec">
+
+      <section id="s83" class="sleepChart-sec" name="sleepChart-sec" number="">
         SLEEP-CHART
         <div id="sleepChart" class="sleep main"></div>
       </section>
 
-      <section class="sec9" id="s9" name="friends-sec">
-        FRIENDS
-        <div id="friendsId" class="friends main user">
-          <div id="friend1" class="friend" name="">friendName1</div>         
-        </div>   
+      <!-- <section id="s32" class="stepDay-sec" name="stepDay-sec" number="">  
+        USERS AVG STEP GOAL
+        <div id="avg-step-goal" class="steps num main user"></div>
+      </section> -->
+
+      <section id="s33" class="stepMin-sec" name="stepMin-sec" number="">  
+        ACTIVE MIN / USERS AVG
+        <div id="min-step" class="steps num main user"></div>
       </section>
+
+      <!-- <section id="s34" class="stepDst-sec" name="stepDst-sec" number="">  
+        MY DISTANCE
+        <div id="dst-step" class="steps num main user"></div>
+      </section> -->
+
+      <section id="s35" class="actStair-sec" name="actStair-sec" number="">  
+        MY STAIRS / USERS AVG
+        <div id="stairs" class="steps num main user"></div>
+      </section>
+      
+      <section id="s9" class="friends-sec" name="friends-sec" number="">
+        MY FRIENDS
+        <div id="friendsId" class="friends main user"></div>   
+      </section>
+
     </main>
     <footer></footer>
     <!-- <script type="text/javascript" src="canvasjs.min.js"></script> -->

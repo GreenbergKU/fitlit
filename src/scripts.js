@@ -4,34 +4,143 @@ let repoData;
 
 function loadFit(data, id) {
   console.log('@loadFit(data):');  
-
   repoData = new UserRepository(data);
-  //dataUser = repoData.findUser(id)[0];
   user = new User(repoData, id);
   let currHydraWeek = user.findDateSpan(user.hydration, 7);
   let currSleepWeek = user.findDateSpan(user.sleep, 7);
-  displayUser(currHydraWeek, currSleepWeek);
+  let currActWeek = user.findDateSpan(user.activity, 7);
+  displayUser(currHydraWeek, currSleepWeek, currActWeek);
 }
 
-function displayUser(weekHydra, weekSleep) {
+function displayUser(weekHydra, weekSleep, weekActivity) {
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let userList = document.getElementsByClassName("user");
   console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
+  let dayActivity = weekActivity.slice(-1);
+  console.log('weekActivity.slice(-1): ', weekActivity.slice(-1));
+  console.log('weekActivity: ', weekActivity);
+  console.log('weekActivity[6]: ', weekActivity[6]);
 
-  userList[0].innerText = user.name;
-  userList[1].innerText = fixZip();
-  userList[2].innerText = user.email;
-  userList[3].innerText = user.dailyStepGoal;
-  userList[4].innerText = repoData.findAvg(repoData.data, "dailyStepGoal");
-  userList[5].innerText = user.strideLength;
-  userList[6].innerText = weekHydra[6].numOunces;
-  console.log('/**/ weekSleep[6] /**/ : ', weekSleep[6]);
-  userList[7].innerText = weekSleep[6].hoursSlept;
-  userList[8].innerText = weekSleep[6].sleepQuality;
+  userList[0].innerText = user.name; //name
+  userList[1].innerText = fixZip(); //address
+  userList[2].innerText = user.email; //email
+  //userList[3].innerText = weekActivity[6].numSteps
+  //userList[4].innerText = user.findDistance(weekActivity.slice(-1));
+  userList[5].innerText = user.dailyStepGoal;  
+  userList[6].innerText = user.avgStepGoal;
+  userList[7].innerText = user.strideLength;
+  //userList[8].innerText = weekHydra[6].numOunces;
+  userList[8].innerText = weekSleep[6].hoursSlept;
+  userList[9].innerText = weekSleep[6].sleepQuality;
+  //userList[11].innerText = repoData.findAvg(repoData.activityData, "numSteps");
+  let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
+  userList[10].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
+  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs");
+  userList[11].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
+  //userList[11].innerText = user.findDistance(user.findDateSpan(user.activity, 1));
+  //console.log('userList[11].innerText: ', userList[11].innerText);
+  // userList[11].innerText = 
+  // user.findDistance(dayActivity);
+  //console.log('userList[11].innerText: ', userList[11].innerText);
 
   displayHydraChart(weekHydra);
   displayFriends(findFriends());
+  displayDayActivity(weekActivity, dayActivity);
 }
+
+function displayDayActivity(weekData) {
+  //console.log('dayData: ', dayData[0].numSteps, user.dailyStepGoal);
+  
+  let actDay = document.getElementsByClassName('actDay-user');
+  console.log('weekData: ', weekData);
+  let percent = user.compareStepData(weekData[6]) ? 100 : user.findStepPercentage(weekData[6]);
+  actDay[0].style.background = createBorder(percent);
+  actDay[1].innerText = weekData[6].numSteps
+  actDay[2].innerText = user.findDistance(weekData.slice(-1));
+  actDay[2].innerText = user.findDistance([weekData[6]]);
+  //let dayStepPercentage = user.compareStepData(dayData[0]) ? 100 : user.findStepPercentage(dayData[0]);
+  //console.log('weekData: ', weekData);
+  //let percent = user.compareStepData(weekData[0]) ? 100 : user.findStepPercentage(weekData[6]);
+  //border.style.background = createBorder(percent);
+  //console.log("stepPercentage", dayStepPercentage);
+  //.log('user.mustStep: ', user.mustStep);
+  //console.log("percent: ", percent);
+  let wkActs = [];
+  let index = 5;
+  //let allCBs = document.getElementsByClassName('circle-border');  
+  //wkActs.push(wkAct[0], wkAct[1], wkAct[2], wkAct[3], wkAct[4], wkAct[5]);
+  //console.log('circleBorders: ', circleBorders);
+  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
+    console.log('border: ', border);
+    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
+    border.style.background = createBorder(percent);  
+    border.nextElementSibling.innerText = removeYear(weekData[index].date);
+    fillActText(weekData[index], border.firstElementChild.children);
+    //console.log("index:", index, border.id, "weekData[i].date: ", weekData[index].date);
+    index--;
+  });
+
+}
+
+function fillActText(dayData, element) {
+  console.log('dayData: ', dayData);
+  element[0].firstElementChild.innerText = dayData.numSteps;
+  element[1].firstElementChild.children[0].innerText = user.findDistance([dayData]);
+  console.log('element[0].firstElementChild: ', element[0].firstElementChild); 
+  // p#wkAct-numStep.actWk.wkAct-num
+  console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
+  //p#wkAct-numDist.actWk.wkAct-num
+}
+  // `  
+  //   linear-gradient(270deg, ${borderColor} ${first50}%, transparent 50%), 
+  //   linear-gradient(0deg, ${borderColor} 75%, lightgray 25%)
+  // `;
+
+/* FROM CODEPEN MYCHART
+  var inners = document.getElementsByClassName("inner");
+
+  var day1 = document.getElementById("day1");
+
+  let dataBlue = ["80", "90", "60", "50", "80", "90", "60"];
+
+  let dataPurple = ["30", "40", "15", "25", "30", "25", "35"]
+
+  inners[0].style.height = "50%";
+  inners[1].style.height = "40%";
+
+  day1.firstElementChild.style.height=`${dataBlue[0]}%`;
+  let purple0 = 
+      `${dataPurple[0]}` / `${dataBlue[0]}` * 100;
+  day1.firstElementChild.firstElementChild.style.height = `${purple0}%`;
+
+  console.log(purple0)
+  */
+
+
+function createBorder(percent) {
+  let color1, color2, color3, color4, degrees;
+  percent <= 50 ? (
+    color1 = "grey",
+    color2 = "transparent",
+    degrees = 90 + (percent * 3.6),
+    color3 = "red",
+    color4 = color1
+  ) : (
+    color1 = "transparent",
+    color2 = "red",
+    degrees = 90 + ((percent-50) * 3.6), 
+    color3 = "grey",
+    color4 = color2
+  );
+  console.log('degrees: ', degrees);
+  console.log('percent: ', percent);
+  let background = `
+    linear-gradient(90deg, ${color1} 50%, ${color2} 50%),
+    linear-gradient(${degrees}deg, ${color3} 50%, ${color4} 50%)
+  `;
+  return percent >= 100 ? "green" : background;
+}
+
 
 function findFriends() {
   console.log('/* @createFriends */');  
@@ -61,10 +170,8 @@ function displayFriends(friends) {
   friendsDiv.innerHTML = "";
   friends.forEach(function(friend) {
     let friendHTML = `
-      <div id="divID${friend.data[0].id}" class="friend" number="${friend.id}">
-        <button id="${friend.data[0].id}" class="friendBtn" name="${friend.id}">
-          ${friend.data[0].name} "${friend.id}"
-        </button>
+      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">${friend.data[0].name}
+        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">'${friend.id}'</button>
       </div>
     `;
     friendsDiv.insertAdjacentHTML("afterbegin", friendHTML);   
@@ -82,12 +189,20 @@ function activateFriendBtns() {
 }
 
 function loadFriend(event) {
-  console.log('event.target: ', event.target, event.target.id);
-  let id = Number(event.target.id);
+  console.log(
+    'event.target: ', event.target, 
+    'event.target.parentNode.id: ', event.target.parentNode.id,
+    'event.target.id.split("-")[1]: ', event.target.id.split("-")[1],
+  );
+  let id = Number(event.target.id.split("-")[1]);
   loadFit(data, id);
 }
 
 function displayHydraChart(data) {
+  console.log('data[0].date: ', removeYear(data[0].date));
+  data.forEach(day => day.date = removeYear(day.date));
+  // data = weekHydra
+
   anychart.onDocumentReady(function() {
     // set the data
     let hydraChartData = {
@@ -100,9 +215,12 @@ function displayHydraChart(data) {
         [`${data[4].date}`, `${data[4].numOunces}`],
         [`${data[5].date}`, `${data[5].numOunces}`],
         [`${data[6].date}`, `${data[6].numOunces}`]
-    ]};
+      ]};
     // create the chart
-    let hydraChart = anychart.bar();
+    let hydraChart = anychart.line();
+    console.log('anychart.bar: ', anychart.bar);
+    console.log('anychart.bar: ', anychart.line);
+
     // add data
     hydraChart.data(hydraChartData);
     // set the chart title
@@ -115,6 +233,150 @@ function displayHydraChart(data) {
   });
 }
 
+function removeYear(date) {
+  return date.split("/").slice(1).join("/");
+
+}
+
+function displayWkActChart() {
+  /*
+
+  */
+}
+
+function displayWkSleepChart() {
+  /*
+  anychart.onDocumentReady(function () {
+  
+  // create data set on our data
+  var dataSet = anychart.data.set(getData());
+
+  // map data for the first series
+  var firstSeriesData = dataSet.mapAs({
+    x: 0,
+    value: 1
+  });
+
+  // map data for the second series
+  var secondSeriesData = dataSet.mapAs({
+    x: 0,
+    value: 2
+  });
+
+  // create line chart
+  var chart = anychart.column();
+
+  // turn on chart animation
+  chart.animation(true);
+
+  chart.padding(10);
+
+  // disable Y axis
+  chart.yAxis(false);
+
+  // set X axis title
+  chart.xAxis().title('Year').stroke('black', 2);
+
+  chart.xAxis().ticks().enabled(false);
+
+  // force chart to stack values by Y scale
+  chart.yScale().stackMode('value');
+
+  // set chart title
+  chart.title('Total number of websites on the internet (2000-2015)');
+
+  // create data-area and set background settings
+  chart
+    .dataArea()
+    .background()
+    .enabled(true)
+    .fill('#456')
+    .corners(25, 25, 0, 0);
+
+  // set grid settings
+  chart
+    .xGrid()
+    .stroke('#fff .1')
+    .isMinor(true)
+    .drawFirstLine(false)
+    .drawLastLine(false);
+
+  chart
+    .yGrid()
+    .stroke('#fff .1')
+    .isMinor(true)
+    .drawFirstLine(false)
+    .drawLastLine(false);
+
+  // create first series with mapped data
+  var firstSeries = chart.column(firstSeriesData);
+  firstSeries.name('Websites');
+
+  // create second series with mapped data
+  var secondSeries = chart.column(secondSeriesData);
+  secondSeries.name('Internet Users');
+
+  // turn the legend on
+  chart
+    .legend()
+    .enabled(true)
+    .fontSize(13)
+    .fontColor('white')
+    .positionMode('inside')
+    .margin({ top: 15 });
+
+  // set container id for the chart
+  chart.container('container');
+
+  // initiate chart drawing
+  chart.draw();
+});
+
+function getData() {
+  return [
+    ['2000', 17087182, 413425190],
+    ['2001', 29254370, 500609240],
+    ['2002', 38760373, 662663600],
+    ['2003', 40912332, 778555680],
+    ['2004', 51611646, 910060180],
+    ['2005', 64780617, 1027580990],
+    ['2006', 85507314, 1160335280],
+    ['2007', 121892559, 1373327790],
+    ['2008', 172338726, 1571601630],
+    ['2009', 238027855, 1766206240],
+    ['2010', 206956723, 2045865660],
+    ['2011', 346004403, 2282955130],
+    ['2012', 697089489, 2518453530],
+    ['2013', 672985183, 2756198420],
+    ['2014', 968882453, 2925249355],
+    ['2015', 863105652, 3185996155]
+  ];
+}
+  */
+}
+    // anychart.bar = 
+    // HI = function (a) {
+    //     var b = new EI;
+    //     b.ua.defaultSeriesType = 'bar';
+    //     b.R = 'bar';
+    //     b.va(!0, $.km('bar'));
+    //     for (var c = 0, d = arguments.length; c < d; c++) b.bar(arguments[c]);
+    //     return b
+    //   }
+    
+    // anychart.line = 
+    // MI = function (a) {
+    //   var b = new EI;
+    //   b.ua.defaultSeriesType = 'line';
+    //   b.R = 'line';
+    //   b.va(!0, $.km('line'));
+    //   for (var c = 0, d = arguments.length; c <
+    //   d; c++) b.line(arguments[c]);
+    //   return b
+    // },
+    
+
+
 function fixZip() {
   let fullZip = user.address.split(" ").pop();
   let splitZip = user.address.split(" ").pop().split("-");
@@ -126,6 +388,29 @@ loadFit(data, 1);
 
 
 /*
+
+ITERATION 4 - ACTIVITY
+
+DATA
+
+x For a specific day (specified by a date), return the miles a user has walked based on their number of steps (use their `strideLength` to help calculate this)
+x For a user, (identified by their `userID`) how many minutes were they active for a given day (specified by a date)?
+* For a user, how many minutes active did they average for a given week (7 days)?
+* For a user, did they reach their step goal for a given day (specified by a date)?
+* For a user, find all the days where they exceeded their step goal
+* For a user, find their all-time stair climbing record
+
+* Make a metric of your own! Document it, calculate it, and display it.
+
+DASHBOARD
+Items to add to the dashboard:
+
+x For a user, the number of steps for the latest day
+x For a user, the number minutes active for the latest day
+x For a user, the distance they have walked (in miles) for the latest day based on their step count
+x How their number of steps, minutes active, and flights of stairs climbed compares to all users for the latest day
+* For a user, a weekly view of their step count, flights of stairs climbed, and minutes active
+
 iteration 3: sleep
 
 **Dashboard:**
