@@ -1,18 +1,17 @@
 * {
   box-sizing: border-box;
-  /* font-family: 'Encode Sans', sans-serif; */
-   /* 'Condensed', Expanded, Semi Condensed, Semi Expanded' */
-  
-  /* font-family: 'Alegreya Sans', sans-serif; */
+  font-family: 'Open Sans', sans-serif;
+  font-size-adjust: 0.5;
   /* Encode Sans, Condensed, Expanded, Semi Condensed, Semi Expanded */
 }
 
 html {
   display: grid;
-  background-color: #2196F3;
   background-color: rgb(15, 27, 35);
   width: 100vw;
   height: 100vh;
+  justify-items: center;
+  padding: 0 5%;
 }
 
 body {
@@ -20,14 +19,15 @@ body {
   width: 100%;
   height: 100%;
   justify-self: center;
-  padding: 2% 2%;
+  justify-items: center;
+  padding: 2%;  
 }
 
 header {
   display: grid;
   width: 100%;
-  height: 70%;
-  padding: 1%;
+  height: 60%;
+  padding: 0;
   background-color: #2196F3; 
   text-align: center;
   align-content: center;
@@ -36,26 +36,26 @@ header {
 
 #dashboard {
   display: grid;
-  width:100%; 
-  height: 100%;      
+  width: 100%; 
+  height: 110%;    
   padding: 1%;        
-  background-color: #2196F3;
   background-color: grey; 
   justify-self: center;
   align-self: center;
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-rows: repeat(9, auto);
   grid-template-columns: repeat(9, 1fr);
   gap: 1%;
   grid-template-areas:
-    "name name name name name name name name name"
-    "addrss addrss addrss addrss addrss  email  email   email   email"
-    "steps steps steps steps hydration hydration hydration friends friends"
-    "steps steps steps steps hydration hydration hydration friends friends"
-    "steps steps steps steps hydration hydration hydration friends friends"
-    "activity activity activity activity hydration hydration hydration friends friends"
-    "activity activity activity activity hydration hydration hydration friends friends"  
-    "myGoal myGoal stride sleepHrs sleep sleep sleep friends friends"
-    "avgGoal avgGoal hydra sleepQty sleep sleep sleep friends friends";
+    "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
+    "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec friends  friends"    
+    "stepSec  stepSec  avgGoal  avgGoal   hydraSec hydraSec hydraSec friends  friends"
+    "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec friends  friends"
+    "myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends" 
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs sleepHrs friends  friends"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty sleepQty friends  friends"
+  ;
 }
 
 section {
@@ -63,7 +63,8 @@ section {
   width: 100%;
   height: 100%;
   background-color: rgb(15, 27, 35);
-  padding: 5px;
+  padding: .5%;
+  padding-top: 1%;
   font-size: .75em;
   font-weight: 800;
   margin: 0;
@@ -71,34 +72,195 @@ section {
   display: grid;
   grid-template-rows: 25px auto;  
   padding: 5px;
+  font-family: 'Andale Mono', sans-serif;
 }
 
-div {
+div, article {
   display: grid;
   align-items: center;
   width: 100%;
 }
 
 .main {
-  padding: 5px;
+  padding: 1%;
   text-align: center;
   font-size: 1em;
-  font-weight: 800;
+  font-weight: 500;
   color: rgb(15, 27, 35);
   background-color: cyan;
   width: 100%;
+  letter-spacing: .1px;
+}
+
+.main-circle {
+  background-color: cyan;
+  justify-content: center;
+  /* padding-top: 10%; */
+}
+
+.circle {
+  position: relative;
+  text-align: center;
+  border-radius: 100%;
+  background-color: #ffffff;
+  width: 90%;
+  height: 90%;
+}
+
+.circle-border {
+  position: relative;
+  display: flex;
+  text-align: center;
+  border-radius: 100%;
+  justify-content: center;
+}
+
+.daily-border {
+  width: 130px;
+  height: 130px;
+  padding: 3%;
+}
+
+h5 {
+  display: grid;  
+  margin: 0;
+  align-items: center;
+  color: black;
+}
+
+span {
+  width: 100%;
+  display: flex;
+  margin: .5%;
+  text-align: center;
+  justify-content: center;
+}
+
+.wkAct-flex {
+  margin: 0;
+}
+
+.actDay-txt {
+  font-size: 1em;
+  font-weight: 800;
+}
+
+.wkAct-txtH5 {
+  font-size: .6em;
+  font-weight: 600;
+  margin: 0;
+}
+
+#wkAct-txtSteps {
+  padding-top: 15%;
+}
+
+#wkAct-txtDist {
+  padding-top: 5%;
+  padding-bottom: 15px;
+}
+
+#actDay-txtSteps {
+  padding-top: 15%;
+}
+
+#actDay-txtDist {
+  padding-top: 10%;
+  padding-bottom: 15px;
+}
+
+.actDay-num {
+  font-size: 1.5em;
+  margin: .5%;
+  font-weight: 700;
+  align-items: center;
+}
+
+.wkAct-num {
+  margin: .5%;
+  font-size: 1.3em;
+}
+
+.actDay-txtSm {
+  font-size: .9em;
+  font-weight: 500;
+  align-items: center;
+}
+
+.wkAct-txtSm {
+  font-size: .9em;
+  font-weight: 500;
+  align-items: center;
+}
+
+#wk-act-grid {
+  display: grid;
+  align-content: end;
+  height: 100%;
+  /* grid-template-columns: repeat(3, auto); */
+  /* grid-template-rows: auto auto; */
+  grid-template-columns: repeat(6, auto);
+  column-gap: 5px;
+  /* padding-top: 5px; */
+}
+
+.main-circle-rows {
+  background-color: cyan;
+  padding-top: 5px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  grid-template-rows: 70px auto;
+}
+
+.wkAct-text {
+  display: grid;
+  height: auto;
+  font-weight: 600;
+  background-color: black;
+  text-align: center;
+  font-size: .9em;
+  padding: 5px;
+}
+
+.act-c-bor {
+  /* FROM .smCir-bor */
+  display: flex;
+  background-color: grey;
+  width: 70px;
+  height: 70px;
+  padding: 1px;
+}
+
+.smCir {
+  border-radius: 100%;
+  background-color: #ffffff;
+  position: relative;
+  text-align: center;
+  width: 85%;
+  height: 85%;
+}
+
+
+/*** % ring ***/
+.ring {
+  background: 
+    linear-gradient(270deg, black 50%, transparent 50%), 
+    linear-gradient(0deg, black 75%, lightgray 25%);
 }
 
 .line {
-  padding-left: 20px;
+  padding-left: 10px;
   justify-content: left;
+  font-weight: 700;
+  font-size: 1.2em;
 }
 
 .friends {
   display: grid;
-  grid-template-rows: auto;
   gap: 10px;
   padding: 10px;
+  justify-items: center;
 }
 
 .friend {
@@ -106,49 +268,79 @@ div {
   background-color: black;
   width: 100%;
   height: 100%;
-  font-size: 1em;
-  font-weight: 600;
-  padding: 10px;
-  align-items: normal;
+  font-family: 'Comic Sans MS', sans-serif;
+  letter-spacing: .6px;
+  font-size: .9em;
+  font-weight: 500; 
+  font-size-adjust: 0.5;
+  justify-items: center;
+}
+
+.friendBtn {
+  width: 50%;
+  padding: 3%;
+  border-radius: 5%;
+  font-size: .7em;
+  justify-content: center;
+  font-size-adjust: 0.5;
 }
 
 .num {
-  /* font-family: 'Encode Sans-Condensed'; */
-  font-size: 1.5em;
-  font-weight: 600;
-}
-
-#hydra {
-  background-color: black;
-  height: 100%;
+  font-family: 'Open Sans';
+  font-size: 1.3em;
+  font-weight: 700;
 }
 
 #hydra-container {
   background-color: cyan;
-  padding: 10px;
+  padding:10px;  
+  font-size: 10px;
+  font-weight: 400;
 }
+
+/* #hydra-container > g > g {    
+  width: 100%;
+  text-align: center;
+} */
+
+
 
 /* GRID-areas */
 
-#s0  {
-  grid-area: name;
+#s0, .name-sec  {
+  grid-area: usrName;
 }
 
 #s1 {
-  grid-area: addrss;
+  grid-area: address;
 }
 
 #s2 {
-  grid-area: email;
+  grid-area: usrEmail;
 }
 
-#s3 {
-  grid-area: steps;
+#s31 {
+  grid-area: stepSec;
+}
+
+#s32 {
+  grid-area: stepDay;
+}
+
+#s33 {
+  grid-area: stepMin;
+}
+
+#s34 {
+  grid-area: stepDst;
+}
+
+#s35 {
+  grid-area: actStair;
 }
 
 #s41 {
   grid-area: myGoal;
-
 }
 
 #s42 {
@@ -156,19 +348,23 @@ div {
 }
 
 #s51 {
-  grid-area: stride;
+  grid-area: myStride;
 }
 
-#s52 {
-  grid-area: hydra;
-}
+/* #s52 {
+  grid-area: dayHydra;
+} */
 
 #s6 {
-  grid-area: hydration; 
+  grid-area: hydraSec; 
 }
 
+/* #s62 {
+  grid-area: hydraDay; 
+} */
+
 #s7 {
-  grid-area: activity;
+  grid-area: actvSec;
 }
 
 #s81 {
@@ -180,7 +376,7 @@ div {
 }
 
 #s83 {
-  grid-area: sleep;
+  grid-area: sleepSec;
 }
 
 #s9 {
@@ -189,7 +385,6 @@ div {
   grid-template-rows: 25px auto;  
   padding: 5px;
 }
-
 
 /* 
 .info-wrapper {
@@ -204,3 +399,19 @@ div {
 
 
 
+/* 
+//// NOTES FOR CSS /////
+
+** LINEAR GRADIENT NOTES ** : https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
+
+<side-or-corner>
+    The position of the gradient line's starting point. If specified, it consists of the word to and up to two keywords: one indicates the horizontal side (left or right), and the other the vertical side (top or bottom). The order of the side keywords does not matter. If unspecified, it defaults to to bottom.
+    The values to top, to bottom, to left, and to right are equivalent to the angles 0deg, 180deg, 270deg, and 90deg, respectively. The other values are translated into an angle.
+<angle>
+    The gradient line's angle of direction. A value of 0deg is equivalent to to top; increasing values rotate clockwise from there.
+<linear-color-stop>
+    A color-stop's <color> value, followed by one or two optional stop positions, (each being either a <percentage> or a <length> along the gradient's axis).
+<color-hint>
+    The color-hint is an interpolation hint defining how the gradient progresses between adjacent color stops. The length defines at which point between two color stops the gradient color should reach the midpoint of the color transition. If omitted, the midpoint of the color transition is the midpoint between two color stops.
+
+*/

@@ -2,7 +2,7 @@ class UserRepository {
   constructor(data) {
     // data = [userData, hydrationData, sleepData, activityData];
     this.data = data[0];
-    // this.avgStepGoal = this.findAvg(data[0], "dailyStepGoal");
+    this.avgStepGoal = this.findAvg(this.data, "dailyStepGoal");
     this.hydrationData = data[1];
     this.sleepData = data[2];
     // this.avgSleepQtyAll = this.findAvg(data[2], "sleepQuality"); 
@@ -14,15 +14,44 @@ class UserRepository {
   }
 
   findAvg(data, property) {  
-    console.log('data: ', data);
+    console.log('@findAvg...', 'data: ', data);
     console.log('property: ', property);
     console.log('data: ', data[0][property]);
     let sum = 0;
     data.forEach(user => sum += user[property]);
-    return sum / data.length;
+    return Math.round(sum / data.length);
   }
 }  
+
+
 /*
+
+ITERATION 4 - ACTIVITY
+
+DATA
+
+* For a specific day (specified by a date), return the miles a user has walked based on their number of steps (use their `strideLength` to help calculate this)
+* For a user, (identified by their `userID`) how many minutes were they active for a given day (specified by a date)?
+* For a user, how many minutes active did they average for a given week (7 days)?
+* For a user, did they reach their step goal for a given day (specified by a date)?
+* For a user, find all the days where they exceeded their step goal
+* For a user, find their all-time stair climbing record
+* For all users, what is the average number of:
+  * stairs climbed for a specified date
+  * steps taken for a specific date
+  * minutes active for a specific date
+* Make a metric of your own! Document it, calculate it, and display it.
+
+DASHBOARD
+Items to add to the dashboard:
+
+* For a user, the number of steps for the latest day
+* For a user, the number minutes active for the latest day
+* For a user, the distance they have walked (in miles) for the latest day based on their step count
+* How their number of steps, minutes active, and flights of stairs climbed compares to all users for the latest day
+* For a user, a weekly view of their step count, flights of stairs climbed, and minutes active
+
+
 iteration 3: sleep
 
 const sleepData = [
