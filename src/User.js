@@ -2,7 +2,7 @@ class User {
   constructor(data, numID) {
     console.log('@USER: ', 'data: ', data);
     console.log("data.findUser(numID)[0]: ", data.findUser(numID)[0]);
-       
+    this.data = data.findUser(numID);   
     this.userData = data.findUser(numID)[0]; 
     this.id = this.userData.id;
     this.name = this.userData.name;
@@ -13,20 +13,20 @@ class User {
     //data.findAvg(data.data, "dailyStepGoal");
     this.dailyStepGoal = this.userData.dailyStepGoal;
     this.friends = this.userData.friends || [];
-    this.friendsData = this.userData.friendsData || [];
-    this.hydration = this.filterUserID(data.hydrationData);
-    this.sleep = this.filterUserID(data.sleepData);
+    this.friendsData = [];
+    this.hydration = this.filterUserID(data.hydrationData, this.id);
+    this.sleep = this.filterUserID(data.sleepData, this.id);
     this.sleepAvgHrs = data.findAvg(this.sleep, "hoursSlept");
     this.sleepQtyAvg = data.findAvg(this.sleep, "sleepQuality");
-    this.activity = this.filterUserID(data.activityData);
+    this.activity = this.filterUserID(data.activityData, this.id);
   }
 
   firstName() {
     return this.name.split(" ")[0];
   }
 
-  filterUserID(data) {
-    return data = data.filter(user => user.userID === this.id);
+  filterUserID(data, id) {
+    return data = data.filter(user => user.userID === id);
   }
 
   findDateSpan(data, dayNum, date) { 
@@ -42,10 +42,18 @@ class User {
     : date;
   }
 
-  findEachDay(daysData, property) {
+  findAll(data, property) {  
+    console.log('property: ', property);
+    console.log('data: ', data);
     let allDays = [];
-    daysData.forEach(day => allDays.push(day[property]));
+    data.forEach(obj => allDays.push(obj[property]));
     return allDays;
+  }
+
+  findSum(numbers) {
+    let sum = 0;
+    numbers.forEach(num => sum += num);
+    return sum;
   }
 
   findDistance(data) {
@@ -55,14 +63,18 @@ class User {
     return (sum * this.strideLength / 5280).toFixed(2)
   }
 
-  compareStepData(dayData) { 
-    console.log('dayData.numSteps: ', dayData.numSteps);
-    console.log('this.dailyStepGoal: ', this.dailyStepGoal);
-    return dayData.numSteps >= this.dailyStepGoal;   
+  compareStepData(property1, property2) { 
+    //console.log('data.numSteps: ', data.numSteps);
+    console.log('properties(1, 2): ', property1, property2);
+    return property1 >= property2;   
   }
 
   findStepPercentage(dayData) {
     return dayData.numSteps / user.dailyStepGoal * 100;
+  }
+
+  findPercentage(property1, property2) {
+    return property1 / property2 * 100;
   }
 }
 

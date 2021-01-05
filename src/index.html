@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap" rel="stylesheet">     -->
+    
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.9.0/css/anychart-ui.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="../style/normalize.css">
     <link rel="stylesheet" type="text/css" href="../style/styles.css">
     
     <title>Activity Tracker</title>
   </head>
   <body>
-    <header> 
-      <h1 class="greeting">GREETING: user.firstName()</h1>  
-    </header>
+    
     <main id="dashboard">
+      
+      <header> 
+        <h1 class="greeting">GREETING: user.firstName()</h1>  
+      </header>
+
       <section id="s0" class="name-sec" name="name-sec" number="">
         NAME
         <div id="nameId" class="name line main user"></div>
@@ -49,19 +56,26 @@
             </div>
           </article>
         </div>
+
+        <div class="stride-sec" name="stride-sec" number="">
+          MY STRIDE
+          <div id="strideId" class="num main user"></div>
+        </div>
+
       </section>
       <section id="s41" class="myGoal-sec" name="myGoal-sec" number="">
-        MY DAILY STEP GOAL
+        MY STEP GOAL / USERS AVG
         <div id="myGoal-avg" class="num main user"></div>
       </section>
+      
+      <!-- 
       <section id="s42" class="avgGoal-sec" name="avgGoal-sec" number="">
-        USERS AVG STEP GOAL 
+        USERS AVG STEP GOAL
         <div id="avgGoal" class="num main user"></div>    
-      </section>
-      <section id="s51" class="stride-sec" name="stride-sec" number="">
-        MY STRIDE
-        <div id="strideId" class="num main user"></div>
-      </section>
+      </section> 
+      -->
+
+      
       <!-- <section id="s52" class="dayHydra-sec" name="dayHydra-sec" number="">
         TODAY'S HYDRATION 
         <div id="dayHydraNum" class="num main user"></div>
@@ -78,7 +92,7 @@
         WEEKLY ACTIVITY 
         <div id="wk-act-grid">
           
-          <div class="main-circle-rows">
+          <div id="wkAct-d1" class="main-circle-rows">
             <article id="wkAct-d0-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -95,7 +109,7 @@
             <p id="wkAct-date" class="wkAct-text">00/00/00</p>
           </div>
 
-          <div class="main-circle-rows">
+          <div id="wkAct-d2" class="main-circle-rows">
             <article id="wkAct-d1-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -112,7 +126,7 @@
             <p class="wkAct-text">00/00/00</p>
           </div>
           
-          <div class="main-circle-rows">
+          <div id="wkAct-d3" class="main-circle-rows">
             <article id="wkAct-d2-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -129,7 +143,7 @@
             <p class="wkAct-text">00/00/00</p>
           </div>
           
-          <div class="main-circle-rows">
+          <div id="wkAct-d4" class="main-circle-rows">
             <article id="wkAct-d3-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -146,7 +160,7 @@
             <p class="wkAct-text">00/00/00</p>
           </div>
           
-          <div class="main-circle-rows">
+          <div id="wkAct-d5" class="main-circle-rows">
             <article id="wkAct-d4-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -163,7 +177,7 @@
             <p class="wkAct-text">00/00/00</p>
           </div>
           
-          <div class="main-circle-rows">
+          <div id="wkAct-d6" class="main-circle-rows">
             <article id="wkAct-d5-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -180,7 +194,7 @@
             <p class="wkAct-text">00/00/00</p>
           </div>
          
-          <div id="wkAct-7" class="main-circle-rows hidden">
+          <div id="wkAct-d7" id="wkAct-7" class="main-circle-rows hidden">
             <article id="wkAct-d6-border" class="act-c-bor circle-border">
               <div class="smCir">
                 <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
@@ -251,23 +265,109 @@
 
       <section id="s92" class="frChallenge-sec" name="friends-sec" number="">
         FRIEND CHALLENGE
-        <div id="frnd-challenge" class="friends main"></div>   
+        <div id="frChallenge-grid" class="friends main">         
+          
+          <div id="frCh-winner" class="friend frChallenge" name="winner">            
+            <div id="frCh-win-txt" class="friend-name winner-txt" name="win-txt">
+              WINNER:
+            </div>
+            <h4 id="frCh-win-name" class="wk-steps-txt">
+              <p id="frCh-win-steps" class="wk-steps-num"></p>
+            </h4>
+          </div>
+
+          <div id="frChallenge-chart" class="frChallenge">
+            <div id ="frCh-cir" class="frCh-cir-wrapper">             
+              <!-- WINNER - ** 1ST PLACE ** -->
+              <article class="circle-border frCh-outerCir">
+                <div id="frCh-1" class="frCh-innerCir smCir">
+
+                  <!-- ** 2ND PLACE ** -->
+                  <article class="circle-border frCh-outerCir">
+                    <div id="frCh-2" class="frCh-innerCir smCir">
+
+                      <!-- ** 3RD PLACE ** -->
+                      <article class="circle-border frCh-outerCir">
+                        <div id="frCh-3" class="frCh-innerCir smCir">
+
+                          <!-- ** 4TH PLACE ** -->                          
+                          <article class="circle-border frCh-outerCir">
+                            <div id="frCh-4" class="frCh-innerCir smCir">
+
+                              <!-- ** 5TH PLACE ** -->
+                              <article class="circle-border frCh-outerCir">
+                                <div id="frCh-5" class="frCh-innerCir smCir">
+                                  
+                                  <!-- ** 6TH PLACE ** -->
+                                  <article class="circle-border frCh-outerCir">
+                                    <div id="frCh-6" class="frCh-innerCir black smCir">
+
+                                  <!-- <article class="circle-border frCh-outerCir">
+                                    <div class="frCh-solidCir smCir">                    
+                                    </div>
+                                  </article> -->
+                                
+                                    </div>
+                                  </article>
+
+                                </div>
+                              </article>
+            
+                            </div>
+                          </article>
+        
+                        </div>
+                      </article>
+    
+                    </div>
+                  </article>
+
+                </div>
+              </article>                
+              <!-- 
+                <h5 id="actDay-txtSteps" class="actDay-txt">STEP COUNT:
+                  <p class="actDay-user actDay-num">####</p>
+                </h5>
+                <h5 id="actDay-txtDist" class="actDay-txt">DISTANCE:
+                  <span>
+                    <p class="actDay-user actDay-num">##.##</p> 
+                    <p class="actDay-txtSm">mi</p>
+                  </span>
+                </h5> 
+              -->                      
+            </div>
+          </div>
+
+          <div id="user-challenge" class="friend frChallenge" number="user-0">            
+            <div id="user-challenge-name" class="friend-name" name="user-name">
+              MY INFO
+            </div>
+            <h4 id="user-challenge-h4" class="wk-steps-txt">TOTAL STEPS (week):
+              <p id="user-challenge-p" class="wk-steps-num"></p>
+            </h4>
+          </div>
+          
+        </div>   
       </section>
+
+      <!-- 
+      <section id="s10" class="myChallenge-sec" name="myChallenge-sec" number="">
+        OTHER
+        <div id="challenge" class="main"></div>
+      </section> 
+      -->
 
     </main>
     <footer></footer>
     <!-- <script type="text/javascript" src="canvasjs.min.js"></script> -->
-  
     <script type="text/javascript" src="../data/users.js"></script>
     <script type="text/javascript" src="../data/hydration.js"></script>
     <script type="text/javascript" src="../data/sleep.js"></script>
     <script type="text/javascript" src="../data/activity.js"></script>
-    <!-- <script type="text/javascript" src="../data/samples.js"></script> -->
     <script type="text/javascript" src="./UserRepository.js"></script>
     <script type="text/javascript" src="./User.js"></script>
-    <!-- <script type="text/javascript" src="./HydraData.js"></script> -->
-    <!-- <script type="text/javascript" src="./Hydration.js"></script> -->
-    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->
+    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js"></script>    
     <script type="text/javascript" src="./scripts.js"></script>
   </body>
 </html>

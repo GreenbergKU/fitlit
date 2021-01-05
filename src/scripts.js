@@ -6,13 +6,50 @@ function loadFit(data, id) {
   console.log('@loadFit(data):');  
   repoData = new UserRepository(data);
   user = new User(repoData, id);
-  let currHydraWeek = user.findDateSpan(user.hydration, 7);
   let currSleepWeek = user.findDateSpan(user.sleep, 7);
   let currActWeek = user.findDateSpan(user.activity, 7);
-  displayUser(currHydraWeek, currSleepWeek, currActWeek);
+  displayUser(currSleepWeek, currActWeek);
+  displayHydraChart(user.findDateSpan(user.hydration, 7));
+  displayFriends(findFriends());
+  displayDayActivity(currActWeek);
+  displayWkSleepChart(currSleepWeek);
+  displayFrChallenge(currActWeek);
+
+  console.log("repoData", repoData);
+  console.log('user.friendsData: ', user.friendsData);
+  console.log('user.friends: ', user.friends);
 }
 
-function displayUser(weekHydra, weekSleep, weekActivity) {
+function displayFrChallenge(weekActivity) {
+  user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
+  document.getElementById('user-challenge-p').innerText = `${user.actWkSum.toLocaleString('en')} steps`;
+  user.friendsData.push(user);
+  console.log('user.friendsData: ', user.friendsData);
+  let stepSums = user.findAll(user.friendsData, "actWkSum")
+    .sort()
+    .reverse()
+  ;
+  console.log('stepSums: ', stepSums);
+  graphFrChallenge(stepSums);  
+}
+
+
+function findFriends() {
+  console.log('/* @createFriends */');   
+  user.friends.forEach(function(friendID) {
+    console.log('friendID: ', friendID);
+    let friend = {};     
+    friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
+    friend.data = repoData.findUser(friendID);
+    friend.activity = user.filterUserID(repoData.activityData, friendID);
+    friend.activity.currWeek = user.findDateSpan(friend.activity, 7);
+    friend.actWkSum = user.findSum(user.findAll(friend.activity.currWeek, "numSteps"));
+    user.friendsData.push(friend);
+  });  
+  return user.friendsData;
+} 
+
+function displayUser(weekSleep, weekActivity) {
   let userList = document.getElementsByClassName("user");
   console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
@@ -22,19 +59,15 @@ function displayUser(weekHydra, weekSleep, weekActivity) {
   userList[0].innerText = user.name; //name
   userList[1].innerText = fixZip(); //address
   userList[2].innerText = user.email; //email
-  userList[3].innerText = user.dailyStepGoal;  
-  userList[4].innerText = user.avgStepGoal;
-  userList[5].innerText = user.strideLength;
-  userList[6].innerText = weekSleep[6].hoursSlept;
-  userList[7].innerText = weekSleep[6].sleepQuality;
-  userList[8].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
-  userList[9].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
-  userList[10].innerText = repoData.findAvg(weekSleep, "hoursSlept");
-  userList[11].innerText = repoData.findAvg(weekSleep, "sleepQuality");
-  displayHydraChart(weekHydra);
-  displayFriends(findFriends());
-  displayDayActivity(weekActivity);
-  displayWkSleepChart(weekSleep)
+  userList[3].innerText = user.strideLength;
+  userList[4].innerText = `${user.dailyStepGoal}  / ${user.avgStepGoal}`;  
+  // userList[4].innerText = user.avgStepGoal;  
+  userList[5].innerText = weekSleep[6].hoursSlept;
+  userList[6].innerText = weekSleep[6].sleepQuality;
+  userList[7].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
+  userList[8].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
+  userList[9].innerText = repoData.findAvg(weekSleep, "hoursSlept");
+  userList[10].innerText = repoData.findAvg(weekSleep, "sleepQuality");
 }
 
 function displayWkSleepChart(data) {
@@ -311,13 +344,14 @@ function displayDayActivity(weekData) {
   console.log('weekData: ', weekData); 
   //actDay **only** 
   let actDay = document.getElementsByClassName('actDay-user');
-  let percent = user.compareStepData(weekData[6]) ? 100 : user.findStepPercentage(weekData[6]);
+  let percent = user.compareStepData(weekData[6].numSteps, user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[6]);
   actDay[0].style.background = createBorder(percent);
-  actDay[1].innerText = weekData[6].numSteps
+  actDay[1].innerText = weekData[6].numSteps.toLocaleString('en');
   actDay[2].innerText = user.findDistance(weekData.slice(-1));
   actDay[2].innerText = user.findDistance([weekData[6]]);
   //actDay **only** 
-
+  chartWeekActivity(weekData);
+}
   /*
   let index = 5;
   Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
@@ -329,7 +363,7 @@ function displayDayActivity(weekData) {
     index--;
   });
   */  
- 
+function chartWeekActivity(weekData) { 
   //wkAct **only** 
   let index = 0;
   let wkActGrid = document.getElementById('wk-act-grid');
@@ -341,7 +375,7 @@ function displayDayActivity(weekData) {
   Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
     console.log('border: ', border);
 
-    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
+    let percent = user.compareStepData(weekData[index].numSteps, user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[index]);
     border.style.background = createBorder(percent);  
     border.nextElementSibling.innerText = removeYear(weekData[index].date);
     fillActText(weekData[index], border.firstElementChild.children);
@@ -350,15 +384,45 @@ function displayDayActivity(weekData) {
   //wkAct **only** 
 }
 
-function fillActText(dayData, element) {
+function graphFrChallenge(numbers) {
+  //console.log('numbers: ', numbers);
+  //let index = numbers.length;
+  //numbers.shift()
+  //console.log('numbers.shift(): ', numbers.shift());
+  let winNum = numbers.slice(0, 1);
+  
+  let index = 1;
+  numbers.forEach(function(num) {    
+    console.log('num: ', num);
+    console.log('numbers: ', numbers);  
+    let percent = user.findPercentage(num, winNum);    
+    let challenger = document.getElementById(`frCh-${index}`);
+    challenger.parentNode.classList.add('white');
+    challenger.classList.add('grey');
+    challenger.style.background = createBorder(percent); 
+    index++;
+  });
+  console.log('winNum: ', winNum[0]);
+  let winner = user.friendsData.filter(obj => obj.actWkSum == winNum[0])[0];
+  console.log('winner: ', winner.data[0].name);
+  document.getElementById('frCh-win-name').innerText = `${winner.data[0].name.toUpperCase()} !`;
+  //console.log('numbers.pop(): ', numbers.pop());
+  
+}
+/*
+  <article id="frCh-1" class="circle-border frCh-outerCir">
+    <div class="frCh-innerCir smCir"> 
+*/
+
+function fillActText(data, element) { 
+  element[0].firstElementChild.innerText = data.numSteps.toLocaleString('en');
+  element[1].firstElementChild.children[0].innerText = user.findDistance([data]);
+}  
   //console.log('dayData: ', dayData);
-  element[0].firstElementChild.innerText = dayData.numSteps;
-  element[1].firstElementChild.children[0].innerText = user.findDistance([dayData]);
   //console.log('element[0].firstElementChild: ', element[0].firstElementChild); 
   // p#wkAct-numStep.actWk.wkAct-num
   //console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
   //p#wkAct-numDist.actWk.wkAct-num
-}
 
 function createBorder(percent) {
   let color1, color2, color3, color4, degrees;
@@ -383,18 +447,7 @@ function createBorder(percent) {
   `;
   return percent >= 100 ? "green" : background;
 }
-
-function findFriends() {
-  console.log('/* @createFriends */');  
-  user.friends.forEach(function(friendID) {
-    let friend = {};     
-    friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
-    friend.data = repoData.findUser(friendID);
-    user.friendsData.unshift(friend);
-  });  
-  console.log('user.friendsData: ', user.friendsData);
-  return user.friendsData;
-}  
+ 
 
 //// ADD TO TESTS!!!
 /*
@@ -407,20 +460,37 @@ console.log('user.friends: ', user.friends);
 */
 //// ^^^^^^^^^^^^^^
 
+/*
+1√. Design a step challenge between friends. 
+Assign your user a few friends from the user data file.
+
+  - Add the methods you need and a display on the dashboard to see their friends step count for a whole week
+
+  - then show who had the most steps for that week.
+*/
+
 function displayFriends(friends) {
   let friendsDiv = document.getElementById("friendsId");
   friendsDiv.innerHTML = "";
   friends.forEach(function(friend) {
+    
     let friendHTML = `
-      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">${friend.data[0].name}
-        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">'${friend.id}'</button>
+      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">
+        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">
+          ${friend.data[0].name.toUpperCase()}
+        </button>
+        <h4 id="${friend.id}-h4" class="wk-steps-txt">TOTAL STEPS (week):
+          <p id="${friend.id}-p" class="wk-steps-num">
+            ${friend.actWkSum.toLocaleString('en')} steps 
+          </p>
+        </h4>
       </div>
     `;
-    friendsDiv.insertAdjacentHTML("afterbegin", friendHTML);   
+    friendsDiv.insertAdjacentHTML("beforeend", friendHTML);   
   });
   activateFriendBtns();
 }
-
+//user.findAll(friend.activity.currWeek, "numSteps")
 function activateFriendBtns() {
   let friendBtns = document.getElementsByClassName('friendBtn');
   let i = friendBtns.length - 1;
@@ -455,11 +525,17 @@ loadFit(data, 1);
 
 
 /*
+ITERATION 5 - Trends and Challenges
+
+1√. Design a step challenge between friends. Assign your user a few friends from the user data file. Add the methods you need and a display on the dashboard to see their friends step count for a whole week, and then show who had the most steps for that week.
+
+2. Calculate and display this trend: for a user, what days had increasing steps for 3 or more days?
+3. Think of your own trend for one user or many users. Document it, calculate it, and display it.
+
 
 ITERATION 4 - ACTIVITY
 
 DATA
-
 x For a specific day (specified by a date), return the miles a user has walked based on their number of steps (use their `strideLength` to help calculate this)
 x For a user, (identified by their `userID`) how many minutes were they active for a given day (specified by a date)?
 * For a user, how many minutes active did they average for a given week (7 days)?
