@@ -462,9 +462,9 @@ span {
   grid-area: avgGoal;  
 }
 
-#s51 {
+/* #s51 {
   grid-area: myStride;
-}
+} */
 
 /* 
 #s52 {
@@ -517,9 +517,9 @@ span {
   grid-area: frChalng;
 }
 
-#s10 {
+/* #s10 {
   grid-area: myChalng;
-}
+} */
 
 .anychart-credits {
   display: none;
