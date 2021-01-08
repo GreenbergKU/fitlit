@@ -1,37 +1,52 @@
 class User {
-  constructor(data, numID) {
-    console.log('@USER: ', 'data: ', data);
-    console.log("data.findUser(numID)[0]: ", data.findUser(numID)[0]);
-    this.data = data.findUser(numID);   
-    this.userData = data.findUser(numID)[0]; 
-    this.id = this.userData.id;
-    this.name = this.userData.name;
-    this.address = this.userData.address;
-    this.email = this.userData.email;
-    this.strideLength = this.userData.strideLength;
-    this.avgStepGoal = data.avgStepGoal;
-    //data.findAvg(data.data, "dailyStepGoal");
-    this.dailyStepGoal = this.userData.dailyStepGoal;
-    this.friends = this.userData.friends || [];
+  constructor(usersData, numID) {
+    this.data = usersData.findUser(numID);   
+    this.id = this.data[0].id;
+    this.name = this.data[0].name;
+    this.address = this.data[0].address;
+    this.email = this.data[0].email;
+    this.strideLength = this.data[0].strideLength;
+    this.avgStepGoal = usersData.findAvg(usersData.data, "dailyStepGoal");
+    this.dailyStepGoal = this.data[0].dailyStepGoal;
+    this.friends = this.data[0].friends || [];
     this.friendsData = [];
-    this.hydration = this.filterUserID(data.hydrationData, this.id);
-    this.sleep = this.filterUserID(data.sleepData, this.id);
-    this.sleepAvgHrs = data.findAvg(this.sleep, "hoursSlept");
-    this.sleepQtyAvg = data.findAvg(this.sleep, "sleepQuality");
-    this.activity = this.filterUserID(data.activityData, this.id);
+    this.hydration = this.filterUserID(usersData.hydrationData, this.id);
+    this.sleep = this.filterUserID(usersData.sleepData, this.id);
+    this.activity = this.filterUserID(usersData.activityData, this.id);
+    this.sleepAvgHrs = usersData.findAvg(this.sleep, "hoursSlept");
+    this.sleepQtyAvg = usersData.findAvg(this.sleep, "sleepQuality");
+    this.weekData = f;
+    /*
+    {
+      hydration: this.findDateSpan(this.hydration, 7),
+      sleep: this.findDateSpan(this.sleep, 7), 
+      activity: this.findDateSpan(this.activity, 7)
+    }
+    */
+    
   }
+
 
   firstName() {
     return this.name.split(" ")[0];
   }
 
   filterUserID(data, id) {
-    return data = data.filter(user => user.userID === id);
+    return data.filter(user => user.userID === id);
+  }
+
+  filterProperty(data, property, id) {
+    return data.filter(user => user[property] === id);
+  }
+
+  addFriendData(friendData) {
+    this.friendsData.push(friendData);
   }
 
   findDateSpan(data, dayNum, date) { 
     date = this.validateDate(data, dayNum, date);       
     let dateIndex = data.findIndex(day => day.date === date);
+    // console.log("data", data);
     return data.slice(dateIndex, dateIndex + dayNum);
   }
 
@@ -43,8 +58,8 @@ class User {
   }
 
   findAll(data, property) {  
-    console.log('property: ', property);
-    console.log('data: ', data);
+    // console.log('property: ', property);
+    // console.log('data: ', data);
     let allDays = [];
     data.forEach(obj => allDays.push(obj[property]));
     return allDays;
@@ -53,20 +68,27 @@ class User {
   findSum(numbers) {
     let sum = 0;
     numbers.forEach(num => sum += num);
-    return sum;
+    return sum
   }
 
   findDistance(data) {
     let sum = 0;
     data.forEach(day => sum += day.numSteps);
-    console.log('sum:', sum, 'strideLength: ', this.strideLength);
-    return (sum * this.strideLength / 5280).toFixed(2)
+    // console.log('sum:', sum, 'strideLength: ', this.strideLength);
+    return (sum * this.strideLength / 5280).toFixed(2);
   }
 
-  compareStepData(property1, property2) { 
-    //console.log('data.numSteps: ', data.numSteps);
-    console.log('properties(1, 2): ', property1, property2);
+  convertToMiles(num) {
+    return (num * this.strideLength / 5280).toFixed(2);
+  }
+
+  compareStepData(property1, property2) {
+    // console.log('properties(1, 2): ', property1, property2);
     return property1 >= property2;   
+  }
+
+  compareStepData(data) {
+    data.numSteps >= this.dailyStepGoal
   }
 
   findStepPercentage(dayData) {
@@ -77,7 +99,6 @@ class User {
     return property1 / property2 * 100;
   }
 }
-
 
 
 if (typeof module !== 'undefined') {

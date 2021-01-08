@@ -17,7 +17,6 @@ html {
 body {
   display: block;
   width: 100%;
-  /* height: 95%; */
   justify-self: center;
   justify-items: center;
   padding: 10px; 
@@ -34,12 +33,12 @@ header {
   align-content: center;
   justify-content: center;
 }
- /* FitLit GRID SETUP: grid template areas */
+
+/* FitLit GRID SETUP: grid template areas */
 
 #dashboard {
   display: grid;
-  width: 100%;  
-  /* padding: 10px;         */
+  width: 100%;
   background-color: grey; 
   justify-self: center;
   align-self: center;
@@ -47,44 +46,19 @@ header {
   grid-template-columns: repeat(9, auto);
   gap: 10px;
   grid-template-areas:
- /* "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
-    "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec friends  friends"    
-    "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec friends  friends"
-    "stepSec  stepSec  actStair actStair  hydraSec hydraSec hydraSec friends  friends"
-    "myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends"
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng" 
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty myChalng frChalng frChalng"
-  ; 
-    "header   header   header   header    header   header   header   header   header"
-    "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
-    "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec friends  friends"    
-    "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec friends  friends"
-    "stepSec  stepSec  actStair actStair  hydraSec hydraSec hydraSec friends  friends"
-    /*"myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends" *//*
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng" 
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg myChalng frChalng frChalng"
-    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty myChalng frChalng frChalng"
-  ;
-  */
     "header   header   header   header    header   header   header   header   header"
     "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
     "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec frChalng frChalng"    
     "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec frChalng frChalng"
     "stepSec  stepSec  actStair actStair  hydraSec hydraSec hydraSec frChalng frChalng"
     "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng"
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
-    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng"
     "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs sleepHrs friends  friends"
     "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty sleepQty friends  friends"
     "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg slpWkAvg friends  friends"
     "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty slpWkQty friends  friends"
+  ;
 }
 
 section {
@@ -124,7 +98,7 @@ div, article {
 #frChallenge-grid {
   height: auto;
   gap: 2px;
-  grid-template-rows: 25% 50% 25%;
+  grid-template-rows: 20% 55% 25%;
 }
 
 #frChallenge-chart {
@@ -138,7 +112,6 @@ div, article {
 .main-circle {
   background-color: cyan;
   justify-content: center;
-  /* padding-top: 10%; */
 }
 
 .circle {
@@ -146,16 +119,16 @@ div, article {
   text-align: center;
   border-radius: 100%;
   background-color: #ffffff;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
 }
 
 #frCh-cir {
   position: relative;
   display: flex;
-  width: 130px;
-  height: 130px;
-  padding: 0px;
+  width: 150px;
+  height: 150px;
+  padding: 0;
   background-color: white;
   border-radius: 100%;
   justify-content: center;
@@ -173,7 +146,7 @@ div, article {
   background-color: black;
   width: 100%;
   height: 100%;
-  padding: 2px;
+  padding: 3px;
 }
 
 .smCir {
@@ -181,15 +154,15 @@ div, article {
   background-color: #ffffff;
   position: relative;
   text-align: center;
-  width: 85%;
-  height: 85%;
+  width: 81%;
+  height: 81%;
 }
 
 .frCh-innerCir {
   background-color: black;
   width: 100%;
   height: 100%;
-  padding: 9px;
+  padding: 10px;
 }
 
 .frCh-solidCir {
@@ -212,15 +185,15 @@ div, article {
 }
 
 .daily-border {
-  width: 130px;
-  height: 130px;
-  padding: 3%;
+  width: 135px;
+  height: 135px;
+  padding: 10%;
+  margin: 10px 0;
 }
 
 .main-circle-rows {
-  padding-top: 10%;
   height: 100%;
-  grid-template-rows: 70px auto;
+  grid-template-rows: 80% 20%;
 }
 
 .wkAct-text {
@@ -231,7 +204,7 @@ div, article {
   text-align: center;
   font-size: .9em;
   padding: 5px;
-  margin: 0;
+  border-radius: 5%;
 }
 
 .act-c-bor {
@@ -240,7 +213,7 @@ div, article {
   background-color: grey;
   width: 70px;
   height: 70px;
-  padding: 1px;
+  margin-bottom: 5px;
 }
 
 h5 {
@@ -288,10 +261,6 @@ span {
   padding-bottom: 15px;
 }
 
-/* #actDay-txtSteps {
-  padding-top: 15%;
-} */
-
 .actDay-num, 
 .wkAct-num {
   font-size: 1.5em;
@@ -306,21 +275,11 @@ span {
   align-items: center;
 }
 
-/* .wkAct-txtSm {
-  font-size: .9em;
-  font-weight: 500;
-  align-items: center;
-} */
-
 #wk-act-grid {
   display: grid;
   height: 100%;
   grid-template-columns: repeat(7, auto);
   column-gap: 5px; 
- 
-  /* grid-template-columns: repeat(3, auto); */
-  /* grid-template-rows: auto auto; */
-  /* padding-top: 5px; */
 }
 
 .line {
@@ -330,19 +289,12 @@ span {
   font-size: 1.2em;
 }
 
-/*
-  <div id="usr-id#" class="friend" number="${friend.id}">
-        <button id="btn-userID#" class="friendBtn" name="${friend.id}-btn">
-          '${friend.data[0].name}'
-        </button>
-  </div>
-*/
-
 .friends {
   display: grid;
   gap: 10px;
   padding: 10px;
   justify-items: center;
+  align-content: center;
 }
 
 .friend {
@@ -355,13 +307,13 @@ span {
   font-size: .9em;
   font-weight: 500; 
   justify-items: center;
-  padding: 10px;
+  align-self: center;
 }
 
 .friendBtn, 
 .friend-name {
   width: auto;
-  padding: 3%;
+  padding: 2%;
   justify-content: center;
   align-self: start;
   font-family: 'Comic Sans MS', sans-serif;
@@ -370,35 +322,57 @@ span {
   font-weight: 500;   
   color: white;
   background-color: black;
-  border-color: #2196F3;
   align-content: center;
+  border: 1px solid #2196F3;  
+  margin-top: .5em;
 }
 
-.friend-name {
-  border: 1px solid #2196F3;
-}
-
-#user-challenge-h4 {
+#stride-txt, 
+#stride-num,
+.usrCh-txt, 
+.usrCh-num,
+.frCh-txt, 
+.frCh-num {
   margin: 0;
-  margin-top: .7em;
 }
 
-#user-challenge-p {
-  margin: .5em;
-  margin-bottom: .1em;
+#stride-txt {
+  text-align: center;
+  margin: 5px;
+  border: black 1px solid;
+  font-size: 1em;
+  text-justify: center;
+}
+
+.usrCh-txt,
+.frCh-txt {
+  margin-top: .3em;
+  margin-bottom: .3em;
+  font-size: .8em;
+}
+
+.frCh-txt {
+  font-size: .7em;
+}
+
+#user-challenge-name {
+  padding: 2%;
+  font-size: .9em;
 }
 
 #frCh-win-txt {
-  border: 4px solid green;
-  font-weight: 700;
-  font-size: 1.4em;
+  border: 2px solid green;
+  font-weight: 600;
+  font-size: 1.0em;
   color: white;
+  padding: 2%;
+  margin: 0;
 }
 
 #frCh-win-name {
   color: green;
-  margin: .5em;
-  font-size: 1.7em;
+  margin: .4em;
+  font-size: 1.5em;
   font-weight: 700;
 }
 
@@ -408,8 +382,12 @@ span {
   font-weight: 700;
 }
 
+#stride-num {
+  font-size: 1em;
+  margin-top: 5px;
+}
+
 #hydra-container {
-  /* background-color: cyan; */
   padding: 10px;  
   font-size: 10px;
   font-weight: 400;
@@ -462,25 +440,9 @@ span {
   grid-area: avgGoal;  
 }
 
-/* #s51 {
-  grid-area: myStride;
-} */
-
-/* 
-#s52 {
-  grid-area: dayHydra;
-} 
-*/
-
 #s6 {
   grid-area: hydraSec; 
 }
-
-/* 
-#s62 {
-  grid-area: hydraDay; 
-} 
-*/
 
 #s7 {
   grid-area: actvSec;
@@ -517,10 +479,6 @@ span {
   grid-area: frChalng;
 }
 
-/* #s10 {
-  grid-area: myChalng;
-} */
-
 .anychart-credits {
   display: none;
 }
@@ -529,9 +487,53 @@ span {
   display: none;
 }
 
-/* 
+/*
 //// NOTES FOR CSS /////
 
+#s10 {
+  grid-area: myChalng;
+} 
+
+#s51 {
+  grid-area: myStride;
+}
+ 
+#s52 {
+  grid-area: dayHydra;
+} 
+
+#s62 {
+  grid-area: hydraDay; 
+} 
+
+////// grid-template-areas: ///////
+    "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
+    "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec friends  friends"    
+    "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec friends  friends"
+    "stepSec  stepSec  actStair actStair  hydraSec hydraSec hydraSec friends  friends"
+    "myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng" 
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty myChalng frChalng frChalng"
+  ; 
+
+
+    "header   header   header   header    header   header   header   header   header"
+    "usrName  usrName  address  address   address  address  usrEmail usrEmail usrEmail"
+    "stepSec  stepSec  myGoal   myGoal    hydraSec hydraSec hydraSec friends  friends"    
+    "stepSec  stepSec  stepMin  stepMin   hydraSec hydraSec hydraSec friends  friends"
+    "stepSec  stepSec  actStair actStair  hydraSec hydraSec hydraSec friends  friends"
+  /*"myStride myStride actStair actStair  hydraSec hydraSec hydraSec friends  friends" *//*
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  friends  friends"
+    "actvSec  actvSec  actvSec  actvSec   actvSec  actvSec  actvSec  frChalng frChalng" 
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepHrs myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec sleepQty myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkAvg myChalng frChalng frChalng"
+    "sleepSec sleepSec  sleepSec sleepSec sleepSec slpWkQty myChalng frChalng frChalng"
+  ;
 
 ///// % ring //////
 .ring {
