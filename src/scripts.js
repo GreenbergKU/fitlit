@@ -1,9 +1,11 @@
-const data = [userData, hydrationData, sleepData, activityData];
+//const User = require("./User");
+//const fitLitData = [userData, hydrationData, sleepData, activityData];
 let user;
 let repoData;
 
+document.onload = loadFit([userData, hydrationData, sleepData, activityData], 1);
+
 function loadFit(data, id) {
-  console.log('@loadFit(data):');  
   repoData = new UserRepository(data);
   user = new User(repoData, id);
   let currSleepWeek = user.findDateSpan(user.sleep, 7);
@@ -14,53 +16,22 @@ function loadFit(data, id) {
   displayDayActivity(currActWeek);
   displayWkSleepChart(currSleepWeek);
   displayFrChallenge(currActWeek);
-
-  console.log("repoData", repoData);
-  console.log('user.friendsData: ', user.friendsData);
-  console.log('user.friends: ', user.friends);
-}
-
-function displayFrChallenge(weekActivity) {
-  user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
-  document.getElementById('user-challenge-p').innerText = `${user.actWkSum.toLocaleString('en')} steps`;
-  user.friendsData.push(user);
-  console.log('user.friendsData: ', user.friendsData);
-  let stepSums = user.findAll(user.friendsData, "actWkSum")
-    .sort()
-    .reverse()
-  ;
-  console.log('stepSums: ', stepSums);
-  graphFrChallenge(stepSums);  
-}
-
-
-function findFriends() {
-  console.log('/* @createFriends */');   
-  user.friends.forEach(function(friendID) {
-    console.log('friendID: ', friendID);
-    let friend = {};     
-    friend.id = `friend${(user.friends.indexOf(friendID) + 1)}`;
-    friend.data = repoData.findUser(friendID);
-    friend.activity = user.filterUserID(repoData.activityData, friendID);
-    friend.activity.currWeek = user.findDateSpan(friend.activity, 7);
-    friend.actWkSum = user.findSum(user.findAll(friend.activity.currWeek, "numSteps"));
-    user.friendsData.push(friend);
-  });  
-  return user.friendsData;
+  console.log("user: ", user);
+  console.log('user.goodSleepers: ', user.goodSleepers);
+  console.log('user.longSleepers: ', user.longSleepers);
+  console.log('user.currWeek: ', user.currWeek);
 } 
 
 function displayUser(weekSleep, weekActivity) {
   let userList = document.getElementsByClassName("user");
-  console.log('@-DISPLAYuSER(): ', 'userList: ', userList);
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
   let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
-  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs");
-  
+  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs"); 
   userList[0].innerText = user.name; //name
   userList[1].innerText = fixZip(); //address
   userList[2].innerText = user.email; //email
   userList[3].innerText = user.strideLength;
-  userList[4].innerText = `${user.dailyStepGoal}  / ${user.avgStepGoal}`;  
+  userList[4].innerText = `${user.dailyStepGoal.toLocaleString('en')}  / ${user.avgStepGoal.toLocaleString('en')}`;  
   // userList[4].innerText = user.avgStepGoal;  
   userList[5].innerText = weekSleep[6].hoursSlept;
   userList[6].innerText = weekSleep[6].sleepQuality;
@@ -71,48 +42,35 @@ function displayUser(weekSleep, weekActivity) {
 }
 
 function displayWkSleepChart(data) {
-  console.log('@wkSleepChart: ', 'data= ', data);
+  user.goodSleepers = calculateSleep();
   data.forEach(day => day.date = removeYear(day.date));
-  
   anychart.onDocumentReady(function () {
-  
     // create data set on our data
     var dataSet = anychart.data.set(getData());
-  
     // map data for the first series
     var firstSeriesData = dataSet.mapAs({
       x: 0,
       value: 2
     });
-  
     // map data for the second series
     var secondSeriesData = dataSet.mapAs({
       x: 0,
       value: 1
     });
-  
     // create line chart
     let chart = anychart.column();
-
     // turn on chart animation
     chart.animation(true);
-
     chart.padding(0, 5, 10, 5);
-
     // disable Y axis
     chart.yAxis(false);
-
     // set X axis title
     chart.xAxis().title(false).stroke('black', 2);
-
     chart.xAxis().ticks().enabled(false);
-
     // force chart to stack values by Y scale
     chart.yScale().stackMode('value');
-
     // set chart title
     chart.title('Weekly Sleep Chart');
-
     // create data-area and set background settings
     chart
       .dataArea()
@@ -120,7 +78,6 @@ function displayWkSleepChart(data) {
       .enabled(true)
       .fill('#456')
       .corners(15, 15, 0, 0);
-
     // set grid settings
     chart
       .xGrid()
@@ -128,22 +85,18 @@ function displayWkSleepChart(data) {
       .isMinor(true)
       .drawFirstLine(false)
       .drawLastLine(false);
-
     chart
       .yGrid()
       .stroke('#fff .1')
       .isMinor(true)
       .drawFirstLine(false)
       .drawLastLine(false);
-
     // create first series with mapped data
     var firstSeries = chart.column(firstSeriesData);
     firstSeries.name('Total Sleep (hrs)');
-
     // create second series with mapped data
     var secondSeries = chart.line(secondSeriesData);
     secondSeries.name('Quality Sleep (hrs)');
-
     // turn the legend on
     chart
       .legend()
@@ -152,7 +105,6 @@ function displayWkSleepChart(data) {
       .fontColor('white')
       .positionMode('inside')
       .margin({ top: 0 });
-
     // set container id for the chart
     chart.container('container');
     let sleepContainer = document.getElementById('sleep-container');  
@@ -162,7 +114,6 @@ function displayWkSleepChart(data) {
     // initiate chart drawing
     chart.draw();
   })
-
   function getData() {
     return [
       [`${data[0].date}`, `${data[0].sleepQuality}`, `${data[0].hoursSlept}`],
@@ -175,6 +126,7 @@ function displayWkSleepChart(data) {
     ]
   }
 }
+
   /*
   anychart.onDocumentReady(function () {
   
@@ -305,8 +257,46 @@ function getData() {
     // },
   */    
 
+function calculateSleep(date) {
+  date = user.validateDate(repoData.sleepData, 1, date);
+  let slpData, slpWk, qtyAvg, goodSleepers = [], allSleepers = [];
+  console.log('repoData.sleepData: ', repoData.sleepData);
+  let dateSleepers = user.filterProperty(repoData.sleepData, "date", date);
+  
+  console.log('dateSleepers: ', dateSleepers);
+  user.currDay.sleep = {
+    maxSleepers: findLongestSleep(dateSleepers),
+  };
+  //repoData.sleepData.date.maxSleepers = findLongestSleep(dateSleepers);
+  //user.maxSleepers = findLongestSleep(dateSleepers);
+
+  repoData.data.forEach(userData => {
+    slpData = user.filterUserID(repoData.sleepData, userData.id);
+    //console.log('slpData: ', slpData);
+    allSleepers.push(user.findDateSpan(slpData, 1, date)[0].hoursSlept);       
+    slpWk = user.findDateSpan(slpData, 7, date);
+    qtyAvg = repoData.findAvg(slpWk, "sleepQuality");
+    qtyAvg > 3 ? goodSleepers.push([userData.id, slpWk[0].date, qtyAvg]) : null;
+    //console.log("qtyAvg: ", qtyAvg),
+    //allSleepHrsDay.push(user.findDateSpan(slpData, 1, date)[0].hoursSlept);    
+  })
+  //console.log('allSleepHrsDay: ', allSleepHrsDay);
+  //let longSleepers = repoData.sleepData.filter(data => data.hoursSlept === findLongestSleep(allSleepHrsDay));
+  //console.log('user.longSleepers: ', user.longSleepers);
+  user.longSleepers = findLongestSleep(allSleepers);
+  return goodSleepers
+}
+
+function findLongestSleep(nums) {
+  //console.log("numbers: ", nums);
+   return repoData.sleepData.filter(data => data.hoursSlept === Math.max(...nums));
+  
+
+  //return Math.max(...nums);
+}
+
 function displayHydraChart(data) {
-  console.log('data[0].date: ', removeYear(data[0].date));
+  // console.log('data[0].date: ', removeYear(data[0].date));
   data.forEach(day => day.date = removeYear(day.date));
   // data = weekHydra
   anychart.onDocumentReady(function() {
@@ -324,9 +314,6 @@ function displayHydraChart(data) {
       ]};
     // create the chart
     let hydraChart = anychart.line();
-    console.log('anychart.bar: ', anychart.bar);
-    console.log('anychart.bar: ', anychart.line);
-
     // add data
     hydraChart.data(hydraChartData);
     // set the chart title
@@ -340,89 +327,37 @@ function displayHydraChart(data) {
 }
 
 function displayDayActivity(weekData) {
-  //console.log('dayData: ', dayData[0].numSteps, user.dailyStepGoal);
-  console.log('weekData: ', weekData); 
-  //actDay **only** 
+  // console.log('weekData: ', weekData);
   let actDay = document.getElementsByClassName('actDay-user');
-  let percent = user.compareStepData(weekData[6].numSteps, user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[6]);
-  actDay[0].style.background = createBorder(percent);
+  //let percent = user.compareStepData(weekData[6].numSteps >= user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[6]);
+  let percent = weekData[6].numSteps >= user.dailyStepGoal ? 100 : user.findStepPercentage(weekData[6]);
+
+  actDay[0].style.backgroundImage = createBorder(percent);
   actDay[1].innerText = weekData[6].numSteps.toLocaleString('en');
   actDay[2].innerText = user.findDistance(weekData.slice(-1));
   actDay[2].innerText = user.findDistance([weekData[6]]);
-  //actDay **only** 
   chartWeekActivity(weekData);
 }
-  /*
-  let index = 5;
-  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
-    console.log('border: ', border);
-    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
-    border.style.background = createBorder(percent);  
-    border.nextElementSibling.innerText = removeYear(weekData[index].date);
-    fillActText(weekData[index], border.firstElementChild.children);
-    index--;
-  });
-  */  
+ 
 function chartWeekActivity(weekData) { 
-  //wkAct **only** 
-  let index = 0;
-  let wkActGrid = document.getElementById('wk-act-grid');
-  let cir7 = document.getElementById('wkAct-7');
-
+  let percent, index = 0, 
+  wkActGrid = document.getElementById('wk-act-grid'),
+  cir7 = document.getElementById('wkAct-7');
   weekData[6].date != user.activity.slice(-1)[0].date ?   
-    cir7.classList.remove('hidden') : wkActGrid.style.gridTemplateColumns = "repeat(6, auto)";
-  
+    cir7.classList.remove('hidden') : wkActGrid.style.gridTemplateColumns = "repeat(6, auto)";  
   Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
-    console.log('border: ', border);
-
-    let percent = user.compareStepData(weekData[index].numSteps, user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[index]);
-    border.style.background = createBorder(percent);  
+    percent = user.compareStepData(weekData[index].numSteps, user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[index]);
+    border.style.background = createBorder(percent);
     border.nextElementSibling.innerText = removeYear(weekData[index].date);
     fillActText(weekData[index], border.firstElementChild.children);
     index++;
   });
-  //wkAct **only** 
 }
-
-function graphFrChallenge(numbers) {
-  //console.log('numbers: ', numbers);
-  //let index = numbers.length;
-  //numbers.shift()
-  //console.log('numbers.shift(): ', numbers.shift());
-  let winNum = numbers.slice(0, 1);
-  
-  let index = 1;
-  numbers.forEach(function(num) {    
-    console.log('num: ', num);
-    console.log('numbers: ', numbers);  
-    let percent = user.findPercentage(num, winNum);    
-    let challenger = document.getElementById(`frCh-${index}`);
-    challenger.parentNode.classList.add('white');
-    challenger.classList.add('grey');
-    challenger.style.background = createBorder(percent); 
-    index++;
-  });
-  console.log('winNum: ', winNum[0]);
-  let winner = user.friendsData.filter(obj => obj.actWkSum == winNum[0])[0];
-  console.log('winner: ', winner.data[0].name);
-  document.getElementById('frCh-win-name').innerText = `${winner.data[0].name.toUpperCase()} !`;
-  //console.log('numbers.pop(): ', numbers.pop());
-  
-}
-/*
-  <article id="frCh-1" class="circle-border frCh-outerCir">
-    <div class="frCh-innerCir smCir"> 
-*/
 
 function fillActText(data, element) { 
   element[0].firstElementChild.innerText = data.numSteps.toLocaleString('en');
   element[1].firstElementChild.children[0].innerText = user.findDistance([data]);
 }  
-  //console.log('dayData: ', dayData);
-  //console.log('element[0].firstElementChild: ', element[0].firstElementChild); 
-  // p#wkAct-numStep.actWk.wkAct-num
-  //console.log('element[1].firstElementChild.children[0]', element[1].firstElementChild.children[0]); 
-  //p#wkAct-numDist.actWk.wkAct-num
 
 function createBorder(percent) {
   let color1, color2, color3, color4, degrees;
@@ -439,8 +374,6 @@ function createBorder(percent) {
     color3 = "grey",
     color4 = color2
   );
-  // console.log('degrees: ', degrees);
-  // console.log('percent: ', percent);
   let background = `
     linear-gradient(90deg, ${color1} 50%, ${color2} 50%),
     linear-gradient(${degrees}deg, ${color3} 50%, ${color4} 50%)
@@ -448,7 +381,6 @@ function createBorder(percent) {
   return percent >= 100 ? "green" : background;
 }
  
-
 //// ADD TO TESTS!!!
 /*
 let findFriends = [];
@@ -469,19 +401,35 @@ Assign your user a few friends from the user data file.
   - then show who had the most steps for that week.
 */
 
-function displayFriends(friends) {
+function findFriends() {
+  // console.log('/* @createFriends */');   
+  user.friends.forEach(function(friendID) {
+    let friend = new User(repoData, friendID);
+    friend.activity.currWeek = friend.findDateSpan(friend.activity, 7);
+    friend.actWkSum = friend.findSum(friend.findAll(friend.activity.currWeek, "numSteps"));
+    user.addFriendData(friend);
+  });
+  //return user.friendsData;
+}
+
+function displayFriends() {
+  let friends = user.friendsData;
   let friendsDiv = document.getElementById("friendsId");
   friendsDiv.innerHTML = "";
-  friends.forEach(function(friend) {
-    
+  friends.forEach(function(friend) {    
     let friendHTML = `
-      <div id="usr-${friend.data[0].id}" class="friend" number="${friend.id}">
-        <button id="btn-${friend.data[0].id}" class="friendBtn" name="${friend.id}-btn">
-          ${friend.data[0].name.toUpperCase()}
+      <div id="frID-${friend.id}" class="friend" number="${friend.id}">
+        <button id="frID-${friend.id}-btn" class="friendBtn">
+          ${friend.name.toUpperCase()}
         </button>
-        <h4 id="${friend.id}-h4" class="wk-steps-txt">TOTAL STEPS (week):
-          <p id="${friend.id}-p" class="wk-steps-num">
+        <h4 id="steps-${friend.id}" class="wk-steps-txt frCh-txt">WEEKLY STEP TOTAL:
+          <p id="numSteps-${friend.id}" class="wk-steps-num frCh-num">
             ${friend.actWkSum.toLocaleString('en')} steps 
+          </p>
+        </h4>
+        <h4 id="dist-${friend.id}" class="wk-steps-txt frCh-txt">WEEKLY DISTANCE:
+          <p id="numDist-${friend.id}" class="wk-steps-num frCh-num">
+            ${user.convertToMiles(friend.actWkSum)} miles 
           </p>
         </h4>
       </div>
@@ -490,7 +438,7 @@ function displayFriends(friends) {
   });
   activateFriendBtns();
 }
-//user.findAll(friend.activity.currWeek, "numSteps")
+
 function activateFriendBtns() {
   let friendBtns = document.getElementsByClassName('friendBtn');
   let i = friendBtns.length - 1;
@@ -498,6 +446,34 @@ function activateFriendBtns() {
     friendBtns[i].addEventListener('click', loadFriend);
     i--;
   };
+}
+
+function displayFrChallenge(weekActivity) {
+  user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
+  document.getElementById('usrCh-stepsNum').innerText = `${user.actWkSum.toLocaleString('en')} steps`;
+  document.getElementById('usrCh-distNum').innerText = `${user.convertToMiles(user.actWkSum)} miles`;
+  user.friendsData.push(user);
+  // console.log('user.friendsData: ', user.friendsData);
+  let stepSums = user.findAll(user.friendsData, "actWkSum")
+    .sort()
+    .reverse()
+  ;
+  graphFrChallenge(stepSums);  
+}
+
+function graphFrChallenge(numbers) {
+  let winNum = numbers.slice(0, 1);
+  let index = 1;
+  numbers.forEach(function(num) {    
+    let percent = user.findPercentage(num, winNum);    
+    let challenger = document.getElementById(`frCh-${index}`);
+    challenger.parentNode.classList.add('white');
+    challenger.classList.add('grey');
+    challenger.style.background = createBorder(percent); 
+    index++;
+  });
+  let winner = user.friendsData.filter(obj => obj.actWkSum == winNum[0])[0];
+  document.getElementById('frCh-win-name').innerText = `${winner.data[0].name.toUpperCase()} !`;  
 }
 
 function loadFriend(event) {
@@ -521,8 +497,19 @@ function fixZip() {
   return user.address;
 }
 
-loadFit(data, 1);
 
+
+  /*
+  let index = 5;
+  Array.from(document.getElementsByClassName('act-c-bor')).forEach(function(border) {
+    console.log('border: ', border);
+    let percent = user.compareStepData(weekData[index]) ? 100 : user.findStepPercentage(weekData[index]);
+    border.style.background = createBorder(percent);  
+    border.nextElementSibling.innerText = removeYear(weekData[index].date);
+    fillActText(weekData[index], border.firstElementChild.children);
+    index--;
+  });
+  */ 
 
 /*
 ITERATION 5 - Trends and Challenges

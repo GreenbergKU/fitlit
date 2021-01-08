@@ -2,11 +2,11 @@ class UserRepository {
   constructor(data) {
     // data = [userData, hydrationData, sleepData, activityData];
     this.data = data[0];
-    this.avgStepGoal = this.findAvg(this.data, "dailyStepGoal");
     this.hydrationData = data[1];
     this.sleepData = data[2];
-    // this.avgSleepQtyAll = this.findAvg(data[2], "sleepQuality"); 
+    console.log('this.sleepData: ', this.sleepData);
     this.activityData = data[3];
+    //this.avgStepGoal = this.findAvg(this.data, "dailyStepGoal");
   }
 
   findUser(id) {
@@ -14,15 +14,17 @@ class UserRepository {
   }
 
   findAvg(data, property) {  
-    console.log('@findAvg...', 'data: ', data);
-    console.log('property: ', property);
-    console.log('data: ', data[0][property]);
     let sum = 0;
     data.forEach(user => sum += user[property]);
-    return Math.round(sum / data.length);
+    return (sum / data.length).toFixed(1)
   }
+
 }  
 
+
+// console.log('@findAvg...', 'data: ', data);
+// console.log('property: ', property);
+// console.log('data: ', data[0][property]);
 
 /*
 
