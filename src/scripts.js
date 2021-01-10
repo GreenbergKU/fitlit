@@ -1,48 +1,85 @@
 //const User = require("./User");
+
+//const User = require("./User");
+
 //const fitLitData = [userData, hydrationData, sleepData, activityData];
 let user;
 let repoData;
 
-document.onload = loadFit([userData, hydrationData, sleepData, activityData], 1);
+document.onload = loadFit(1);
 
-function loadFit(data, id) {
+function loadFit(id, data) {
+  data = !data ? [userData, hydrationData, sleepData, activityData] : data;
   repoData = new UserRepository(data);
   user = new User(repoData, id);
-  let currSleepWeek = user.findDateSpan(user.sleep, 7);
-  let currActWeek = user.findDateSpan(user.activity, 7);
-  displayUser(currSleepWeek, currActWeek);
-  displayHydraChart(user.findDateSpan(user.hydration, 7));
-  displayFriends(findFriends());
-  displayDayActivity(currActWeek);
-  displayWkSleepChart(currSleepWeek);
-  displayFrChallenge(currActWeek);
   console.log("user: ", user);
-  console.log('user.goodSleepers: ', user.goodSleepers);
-  console.log('user.longSleepers: ', user.longSleepers);
-  console.log('user.currWeek: ', user.currWeek);
+  //let currSleepWeek = user.findDateSpan(user.sleep, 7);
+  //let currActWeek = user.findDateSpan(user.activity, 7);
+  displayUser();
+  displayHydraChart(user.weekData.hydration);
+  displayDayActivity(user.weekData.activity);
+  user.goodSleepers = calculateSleep();
+  displayFriends(findFriends());
+  displayFrChallenge(user.weekData.activity); 
+  //console.log('user.goodSleepers: ', user.goodSleepers);
+  //console.log('user.longSleepersDay: ', user.longSleepersDay);
+  console.log('user.weekData: ', user.weekData);
 } 
 
-function displayUser(weekSleep, weekActivity) {
+function displayUser() {
   let userList = document.getElementsByClassName("user");
   document.querySelector(".greeting").innerText = `Welcome back, ${user.firstName()}!`;
-  let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
-  let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs"); 
+  //let minActiveAvg = repoData.findAvg(repoData.activityData, "minutesActive");
+  //let stairsAvg = repoData.findAvg(repoData.activityData, "flightsOfStairs"); 
   userList[0].innerText = user.name; //name
   userList[1].innerText = fixZip(); //address
   userList[2].innerText = user.email; //email
   userList[3].innerText = user.strideLength;
   userList[4].innerText = `${user.dailyStepGoal.toLocaleString('en')}  / ${user.avgStepGoal.toLocaleString('en')}`;  
   // userList[4].innerText = user.avgStepGoal;  
-  userList[5].innerText = weekSleep[6].hoursSlept;
-  userList[6].innerText = weekSleep[6].sleepQuality;
-  userList[7].innerText = `${weekActivity[6].minutesActive} / ${minActiveAvg}`;
-  userList[8].innerText = `${weekActivity[6].flightsOfStairs} / ${stairsAvg}`;
-  userList[9].innerText = repoData.findAvg(weekSleep, "hoursSlept");
-  userList[10].innerText = repoData.findAvg(weekSleep, "sleepQuality");
+  userList[5].innerText = user.weekData.sleep[6].hoursSlept;
+  userList[6].innerText = user.weekData.sleep[6].sleepQuality;
+  userList[7].innerText = `${convertToHrs(user.weekData.activity[6].minutesActive)} / ${convertToHrs(user.minActiveAvg)}`;
+  userList[8].innerText = `${user.weekData.activity[6].flightsOfStairs} / ${user.stairsAvg}`;
+  //userList[9].innerText = repoData.findAvg(weekSleep, "hoursSlept");
+  //userList[10].innerText = repoData.findAvg(weekSleep, "sleepQuality");
+  userList[9].innerText = user.weekData.sleepWkAvg;
+  userList[10].innerText = user.weekData.slpQtyWkAvg;
 }
 
-function displayWkSleepChart(data) {
-  user.goodSleepers = calculateSleep();
+function convertToHrs(min) {
+  // console.log('min: ', min);
+  return (min / 60).toFixed(2)
+}
+
+function calculateSleep(date) {  
+  let sleeper, goodSleepers = [], daySleepersAll = [];
+  date = user.validateDate(repoData.sleepData, 1, date);
+  repoData.data.forEach(userData => {
+    sleeper = new User(repoData, userData.id).weekData;
+    //console.log('sleeper: ', sleeper);
+    daySleepersAll.push(sleeper.sleep.slice(-1)[0]);
+    sleeper.sleepWkAvg > 3 ? goodSleepers.push([userData.id, date, sleeper.sleepWkAvg]) : null;  
+  })
+  //console.log('daySleepersAll: ', daySleepersAll);
+  //console.log('user.findAll(daySleepersAll, "hoursSlept"): ', user.findAll(daySleepersAll, "hoursSlept"));
+  user.longSleepersDay = findLongestSleep(user.findAll(daySleepersAll, "hoursSlept"));
+  displayWkSleepChart(user.weekData.sleep);
+  return goodSleepers
+}
+
+  /*
+    repoData.data.forEach(userData => {
+      slpData = user.filterUserID(repoData.sleepData, userData.id);
+      allSleepers.push(user.findDateSpan(slpData, 1, date)[0].hoursSlept);       
+      slpWk = user.findDateSpan(slpData, 7, date);
+      qtyAvg = repoData.findAvg(slpWk, "sleepQuality");
+      qtyAvg > 3 ? goodSleepers.push([userData.id, slpWk[0].date, qtyAvg]) : null;  
+    })
+    user.longSleepers = findLongestSleep(allSleepers);
+  */
+
+ function displayWkSleepChart(data) {
   data.forEach(day => day.date = removeYear(day.date));
   anychart.onDocumentReady(function () {
     // create data set on our data
@@ -257,41 +294,10 @@ function getData() {
     // },
   */    
 
-function calculateSleep(date) {
-  date = user.validateDate(repoData.sleepData, 1, date);
-  let slpData, slpWk, qtyAvg, goodSleepers = [], allSleepers = [];
-  console.log('repoData.sleepData: ', repoData.sleepData);
-  let dateSleepers = user.filterProperty(repoData.sleepData, "date", date);
-  
-  console.log('dateSleepers: ', dateSleepers);
-  user.currDay.sleep = {
-    maxSleepers: findLongestSleep(dateSleepers),
-  };
-  //repoData.sleepData.date.maxSleepers = findLongestSleep(dateSleepers);
-  //user.maxSleepers = findLongestSleep(dateSleepers);
-
-  repoData.data.forEach(userData => {
-    slpData = user.filterUserID(repoData.sleepData, userData.id);
-    //console.log('slpData: ', slpData);
-    allSleepers.push(user.findDateSpan(slpData, 1, date)[0].hoursSlept);       
-    slpWk = user.findDateSpan(slpData, 7, date);
-    qtyAvg = repoData.findAvg(slpWk, "sleepQuality");
-    qtyAvg > 3 ? goodSleepers.push([userData.id, slpWk[0].date, qtyAvg]) : null;
-    //console.log("qtyAvg: ", qtyAvg),
-    //allSleepHrsDay.push(user.findDateSpan(slpData, 1, date)[0].hoursSlept);    
-  })
-  //console.log('allSleepHrsDay: ', allSleepHrsDay);
-  //let longSleepers = repoData.sleepData.filter(data => data.hoursSlept === findLongestSleep(allSleepHrsDay));
-  //console.log('user.longSleepers: ', user.longSleepers);
-  user.longSleepers = findLongestSleep(allSleepers);
-  return goodSleepers
-}
 
 function findLongestSleep(nums) {
-  //console.log("numbers: ", nums);
-   return repoData.sleepData.filter(data => data.hoursSlept === Math.max(...nums));
-  
-
+  // console.log("numbers: ", nums);
+  return repoData.sleepData.filter(data => data.hoursSlept === Math.max(...nums));
   //return Math.max(...nums);
 }
 
@@ -331,10 +337,9 @@ function displayDayActivity(weekData) {
   let actDay = document.getElementsByClassName('actDay-user');
   //let percent = user.compareStepData(weekData[6].numSteps >= user.dailyStepGoal) ? 100 : user.findStepPercentage(weekData[6]);
   let percent = weekData[6].numSteps >= user.dailyStepGoal ? 100 : user.findStepPercentage(weekData[6]);
-
   actDay[0].style.backgroundImage = createBorder(percent);
   actDay[1].innerText = weekData[6].numSteps.toLocaleString('en');
-  actDay[2].innerText = user.findDistance(weekData.slice(-1));
+  //actDay[2].innerText = user.findDistance(weekData.slice(-1));
   actDay[2].innerText = user.findDistance([weekData[6]]);
   chartWeekActivity(weekData);
 }
@@ -405,15 +410,14 @@ function findFriends() {
   // console.log('/* @createFriends */');   
   user.friends.forEach(function(friendID) {
     let friend = new User(repoData, friendID);
-    friend.activity.currWeek = friend.findDateSpan(friend.activity, 7);
-    friend.actWkSum = friend.findSum(friend.findAll(friend.activity.currWeek, "numSteps"));
     user.addFriendData(friend);
   });
   //return user.friendsData;
+  console.log('user.friendsData: ', user.friendsData);
 }
 
 function displayFriends() {
-  let friends = user.friendsData;
+  let friends = user.friendsData; 
   let friendsDiv = document.getElementById("friendsId");
   friendsDiv.innerHTML = "";
   friends.forEach(function(friend) {    
@@ -424,17 +428,18 @@ function displayFriends() {
         </button>
         <h4 id="steps-${friend.id}" class="wk-steps-txt frCh-txt">WEEKLY STEP TOTAL:
           <p id="numSteps-${friend.id}" class="wk-steps-num frCh-num">
-            ${friend.actWkSum.toLocaleString('en')} steps 
+            ${friend.weekData.actWkSum.toLocaleString('en')} steps 
           </p>
         </h4>
         <h4 id="dist-${friend.id}" class="wk-steps-txt frCh-txt">WEEKLY DISTANCE:
           <p id="numDist-${friend.id}" class="wk-steps-num frCh-num">
-            ${user.convertToMiles(friend.actWkSum)} miles 
+            ${user.convertToMiles(friend.weekData.actWkSum)} miles 
           </p>
         </h4>
       </div>
     `;
-    friendsDiv.insertAdjacentHTML("beforeend", friendHTML);   
+    friendsDiv.insertAdjacentHTML("beforeend", friendHTML); 
+    // console.log('friend.weekData.actWkSum: ', friend.weekData.actWkSum);  
   });
   activateFriendBtns();
 }
@@ -448,17 +453,16 @@ function activateFriendBtns() {
   };
 }
 
-function displayFrChallenge(weekActivity) {
-  user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
-  document.getElementById('usrCh-stepsNum').innerText = `${user.actWkSum.toLocaleString('en')} steps`;
-  document.getElementById('usrCh-distNum').innerText = `${user.convertToMiles(user.actWkSum)} miles`;
-  user.friendsData.push(user);
+function displayFrChallenge() {
   // console.log('user.friendsData: ', user.friendsData);
-  let stepSums = user.findAll(user.friendsData, "actWkSum")
-    .sort()
-    .reverse()
-  ;
-  graphFrChallenge(stepSums);  
+  //user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
+  //user.actWkSum = user.findSum(user.findAll(weekActivity, "numSteps"));
+  document.getElementById('usrCh-stepsNum').innerText = `${user.weekData.actWkSum.toLocaleString('en')} steps`;
+  document.getElementById('usrCh-distNum').innerText = `${user.convertToMiles(user.weekData.actWkSum)} miles`;
+  let stepSums = user.findAll(user.findAll(user.friendsData, "weekData"), "actWkSum")
+  .sort()
+  .reverse();
+  graphFrChallenge(stepSums);
 }
 
 function graphFrChallenge(numbers) {
@@ -472,8 +476,8 @@ function graphFrChallenge(numbers) {
     challenger.style.background = createBorder(percent); 
     index++;
   });
-  let winner = user.friendsData.filter(obj => obj.actWkSum == winNum[0])[0];
-  document.getElementById('frCh-win-name').innerText = `${winner.data[0].name.toUpperCase()} !`;  
+  let winner = user.friendsData.filter(obj => obj.weekData.actWkSum == winNum[0])[0];
+  document.getElementById('frCh-win-name').innerText = `${winner.name.toUpperCase()} !`;  
 }
 
 function loadFriend(event) {
@@ -483,7 +487,7 @@ function loadFriend(event) {
     'event.target.id.split("-")[1]: ', event.target.id.split("-")[1],
   );
   let id = Number(event.target.id.split("-")[1]);
-  loadFit(data, id);
+  loadFit(id);
 }
 
 function removeYear(date) {

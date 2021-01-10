@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./src/anychart/anychart-base.min.js" type="text/javascript"></script>
+    <script src="./src/anychart/anychart-cartesian-3d.min.js" type="text/javascript"></script>
+    <script src="./src/anychart/anychart-cartesian.min.js" type="text/javascript"></script>
+    <script src="./src/anychart/anychart-exports.min.js" type="text/javascript"></script>
+    <script src="./src/anychart/anychart-ui.min.js" type="text/javascript"></script>
+        
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap"> 
+
+    <link rel="stylesheet" type="text/css" href="./style/anychart/anychart-ui.min.css"/> 
+    <link rel="stylesheet" type="text/css" href="./style/anychart/anychart-font.min.css"/>   
+    <link rel="stylesheet" type="text/css" href="./style/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="./style/fitLit.css"/>
+    <title>Activity Tracker</title>
+  </head>
+  <body>
+    
+    <main id="dashboard">      
+      <header> 
+        <h1 class="greeting">GREETING: user.firstName()</h1>  
+      </header>
+
+      <section id="s0" class="name-sec" name="name-sec" number="">
+        NAME
+        <div id="nameId" class="name line main user"></div>
+      </section>
+      
+      <section id="s1" class="address-sec" name="address-sec" number="">
+        ADDRESS 
+        <div id="addressId" class="address line main user" value="">123 W. 1st St</div>    
+      </section>
+      
+      <section id="s2" class="email-sec" name="email-sec" number="">
+        EMAIL
+        <div id="emailId" class="email line main user" value="">
+          @gmail 
+        </div>
+      </section>
+
+      <section id="s31" class="steps-sec" name="steps-sec" number="">  
+        MY DAILY ACTIVITY 
+        <div id="steps-day" class="steps main-circle">
+          <article id ="actDay-border" class="actDay-user circle-border daily-border">
+            <div class="circle">
+              <h5 id="actDay-txtSteps" class="actDay-txt">STEP COUNT: 
+                <p class="actDay-user actDay-num">####</p>
+              </h5>
+              <h5 id="actDay-txtDist" class="actDay-txt">DISTANCE:
+                <span>
+                  <p class="actDay-user actDay-num">##.##</p> 
+                  <p class="actDay-txtSm">mi</p>
+                </span>
+              </h5>
+            </div>
+          </article>
+        </div>
+        <h3 id="stride-txt" class="strideTxt" number="">
+          MY STRIDE
+          <p id="stride-num" class="num main user"></div>
+        </h3>
+      </section>
+
+      <section id="s41" class="myGoal-sec" name="myGoal-sec" number="">
+        MY STEP GOAL / USERS AVG
+        <div id="myGoal-avg" class="num main user"></div>
+      </section>
+      
+      <section id="s6" class="hydra-sec" name="hydra-sec" number="">
+        HYDRATION-CHART 
+        <article id="hydra-container" class="hydra-chart main"></article>
+      </section>
+
+      <section id="s7" class="activity-sec" name="activity-sec" number="">
+        WEEKLY ACTIVITY 
+        <div id="wk-act-grid">         
+          <div id="wkAct-d1" class="main-circle-rows">
+            <article id="wkAct-d0-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p id="wkAct-date" class="wkAct-text">00/00/00</p>
+          </div>
+
+          <div id="wkAct-d2" class="main-circle-rows">
+            <article id="wkAct-d1-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p>   
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div id="wkAct-d3" class="main-circle-rows">
+            <article id="wkAct-d2-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div id="wkAct-d4" class="main-circle-rows">
+            <article id="wkAct-d3-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div id="wkAct-d5" class="main-circle-rows">
+            <article id="wkAct-d4-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+          
+          <div id="wkAct-d6" class="main-circle-rows">
+            <article id="wkAct-d5-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+         
+          <div id="wkAct-d7" id="wkAct-7" class="main-circle-rows hidden">
+            <article id="wkAct-d6-border" class="act-c-bor circle-border">
+              <div class="smCir">
+                <h5 id="wkAct-txtSteps" class="wkAct-txtH5">STEP COUNT:
+                  <p id="wkAct-numStep" class="actWk wkAct-num">####</p>
+                </h5>
+                <h5 id="wkAct-txtDist" class="wkAct-txtH5">DISTANCE:
+                  <span class="wkAct-flex">
+                    <p id="wkAct-numDist" class="actWk wkAct-num">9.05</p> 
+                    <p id="wkAct-smTxt" class="wkAct-txtSm">mi</p>
+                  </span>
+                </h5>
+              </div>
+            </article>
+            <p class="wkAct-text">00/00/00</p>
+          </div>
+
+        </div>
+      </section>
+      
+      <section id="s81" class="sleepHrs-sec" name="sleepHrs-sec" number="">
+        HOURS SLEPT
+        <div id="sleepHrs" class="sleep num main user"></div>
+      </section>
+
+      <section id="s82" class="sleepQty-sec" name="sleepQty-sec" number="">
+        QTY-SLEEP
+        <div id="sleepQty" class="sleep num main user"></div>
+      </section>
+
+      <section id="s83" class="sleepChart-sec" name="sleepChart-sec" number="">
+        SLEEP-CHART
+        <article id="sleep-container" class="sleep-chart main"></article>          
+        </div>
+      </section>
+
+      <section id="s33" class="stepMin-sec" name="stepMin-sec" number="">  
+        HRS ACTIVE / USERS AVG
+        <div id="min-step" class="steps num main user"></div>
+      </section>
+
+      <section id="s35" class="actStair-sec" name="actStair-sec" number="">  
+        MY STAIRS / USERS AVG
+        <div id="stairs" class="steps num main user"></div>
+      </section>
+
+      <section id="s84" class="sleepHrs-sec" name="sleepHrs-sec" number="">
+        SLEEP (WK AVG) 
+        <div id="wkAvg-HrsSleep" class="sleep num main user"></div>
+      </section>
+
+      <section id="s85" class="sleepQty-sec" name="sleepQty-sec" number="">
+        QTY-SLEEP (AVG)
+        <div id="wkAvg-QtySleep" class="sleep num main user"></div>
+      </section>
+      
+      <section id="s9" class="friends-sec" name="friends-sec" number="">
+        MY FRIENDS
+        <div id="friendsId" class="friends main"></div>   
+      </section>
+
+      <section id="s92" class="frChallenge-sec" name="friends-sec" number="">
+        FRIEND CHALLENGE
+        <div id="frChallenge-grid" class="friends main">         
+          
+          <div id="frCh-winner" class="friend frChallenge" name="winner">            
+            <div id="frCh-win-txt" class="friend-name winner-txt" name="win-txt">
+              WINNER:
+            </div>
+            <h4 id="frCh-win-name" class="wk-steps-txt">
+              <p id="frCh-win-steps" class="wk-steps-num"></p>
+            </h4>
+          </div>
+
+          <div id="frChallenge-chart" class="frChallenge">
+            <div id ="frCh-cir" class="frCh-cir-wrapper">             
+              <!-- WINNER - ** 1ST PLACE ** -->
+              <article class="circle-border frCh-outerCir">
+                <div id="frCh-1" class="frCh-innerCir smCir">
+
+                  <!-- ** 2ND PLACE ** -->
+                  <article class="circle-border frCh-outerCir">
+                    <div id="frCh-2" class="frCh-innerCir smCir">
+
+                      <!-- ** 3RD PLACE ** -->
+                      <article class="circle-border frCh-outerCir">
+                        <div id="frCh-3" class="frCh-innerCir smCir">
+
+                          <!-- ** 4TH PLACE ** -->                          
+                          <article class="circle-border frCh-outerCir">
+                            <div id="frCh-4" class="frCh-innerCir smCir">
+
+                              <!-- ** 5TH PLACE ** -->
+                              <article class="circle-border frCh-outerCir">
+                                <div id="frCh-5" class="frCh-innerCir smCir">
+                                  
+                                  <!-- ** 6TH PLACE ** -->
+                                  <!-- <article class="circle-border frCh-outerCir">
+                                    <div id="frCh-6" class="frCh-innerCir black smCir"></div>
+                                  </article> -->
+
+                                </div>
+                              </article>
+            
+                            </div>
+                          </article>
+        
+                        </div>
+                      </article>
+    
+                    </div>
+                  </article>
+
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <div id="user-challenge" class="friend frChallenge" number="user-0">            
+            <div id="user-challenge-name" class="friend-name" name="user-name">
+              MY INFO
+            </div>
+            <h4 id="usrCh-stepsTxt" class="wk-steps-txt usrCh-txt">WEEKLY STEP TOTAL:
+              <p id="usrCh-stepsNum" class="wk-steps-num usrCh-num" name="wkStepNum"></p>
+            </h4>
+            <h4 id="usrCh-distTxt" class="wk-steps-txt usrCh-txt">WEEKLY DISTANCE:
+              <p id="usrCh-distNum" class="wk-steps-num usrCh-num" name="wkStepNum"></p>
+            </h4>
+          </div>
+          
+        </div>   
+      </section>
+    </main>
+    <footer></footer>
+
+    <script type="text/javascript" src="./data/users.js"></script>   
+    <script type="text/javascript" src="./data/hydration.js"></script>
+    <script type="text/javascript" src="./data/sleep.js"></script>
+    <script type="text/javascript" src="./data/activity.js"></script>
+    <script type="text/javascript" src="./src/User.js"></script>
+    <script type="text/javascript" src="./src/UserRepository.js"></script>
+
+    <script type="text/javascript" src="./src/scripts.js"></script>
+  </body>
+</html>
+
+
+    <!-- <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet"> -->
+    <!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->       
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js" type="text/javascript"></script> -->   
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-editor.min.js" type="text/javascript"></script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.9.0/css/anychart-ui.min.css"/> -->
+
+    <!-- <script src="canvasjs.min.js" type="text/javascript"></script> -->
+    <!-- <script src="./src/anychart/anychart-bundle.min.js" script type="text/javascript" ></script> -->
+    <!-- <script src="./src/anychart/anychart-base.min.js" type="text/javascript"></script> -->
+    <!-- <script src="./src/anychart/anychart-ui.min.js" type="text/javascript"></script> -->
+    
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js"></script> --> 
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js"></script> -->
+
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-bundle.min.js"></script> -->
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-base.min.js"></script> -->
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-ui.min.js"></script> -->
+
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-cartesian.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-exports.min.js"></script> -->
+
+    <!-- <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet"> -->

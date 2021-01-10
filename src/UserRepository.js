@@ -1,12 +1,13 @@
 class UserRepository {
   constructor(data) {
+    console.log('data: ', data);
     // data = [userData, hydrationData, sleepData, activityData];
     this.data = data[0];
     this.hydrationData = data[1];
     this.sleepData = data[2];
-    console.log('this.sleepData: ', this.sleepData);
+    //console.log('this.sleepData: ', this.sleepData);
     this.activityData = data[3];
-    //this.avgStepGoal = this.findAvg(this.data, "dailyStepGoal");
+    //this.data.avgStepGoal = this.findAvg(this.data, "dailyStepGoal");
   }
 
   findUser(id) {
