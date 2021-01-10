@@ -3,14 +3,39 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap" rel="stylesheet">     -->
     
-    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js"></script> -->
-    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.9.0/css/anychart-ui.min.css" /> -->
-    <link rel="stylesheet" type="text/css" href="../style/normalize.css">
-    <link rel="stylesheet" type="text/css" href="../style/styles.css">
+    <!-- <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet"/>
+    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet"/> -->
+
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-cartesian-3d.min.js"></script>
+    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+    <!-- <script src="./src/anychart/anychart-base.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-cartesian.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-cartesian-3d.min.js"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-exports.min.js"></script> -->
+    <!-- <script src="./src/anychart/anychart-ui.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js" type="text/javascript"></script> -->
+
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-editor.min.js" type="text/javascript"></script> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap" rel="stylesheet">    
+    <!-- <link href="./style/anychart/anychart-ui.min.css" rel="stylesheet" type="text/css" /> -->
+
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js" type="text/javascript"></script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.9.0/css/anychart-ui.min.css"/> -->
+    <link rel="stylesheet" type="text/css" href="./style/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="./style/styles.css"/>
     
     <title>Activity Tracker</title>
   </head>
@@ -213,7 +238,7 @@
       </section>
 
       <section id="s33" class="stepMin-sec" name="stepMin-sec" number="">  
-        ACTIVE MIN / USERS AVG
+        HRS ACTIVE / USERS AVG
         <div id="min-step" class="steps num main user"></div>
       </section>
 
@@ -312,14 +337,25 @@
     </main>
     <footer></footer>
     <!-- <script type="text/javascript" src="canvasjs.min.js"></script> -->
-    <script type="text/javascript" src="../data/users.js"></script>
-    <script type="text/javascript" src="../data/hydration.js"></script>
-    <script type="text/javascript" src="../data/sleep.js"></script>
-    <script type="text/javascript" src="../data/activity.js"></script>
-    <script type="text/javascript" src="./UserRepository.js"></script>
-    <script type="text/javascript" src="./User.js"></script>
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-bundle.min.js"></script> -->
+    <script src="./src/anychart/anychart-base.min.js" type="text/javascript"></script>
+    <script src="./src/anychart/anychart-ui.min.js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="./data/users.js"></script>
+    <script type="text/javascript" src="./data/hydration.js"></script>
+    <script type="text/javascript" src="./data/sleep.js"></script>
+    <script type="text/javascript" src="./data/activity.js"></script>
+    <script type="text/javascript" src="./src/UserRepository.js"></script>
+    <script type="text/javascript" src="./src/User.js"></script>
+    
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js"></script> --> 
     <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script> -->
-    <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-bundle.min.js"></script>    
-    <script type="text/javascript" src="./scripts.js"></script>
+    <!-- <script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-ui.min.js"></script> -->
+
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-bundle.min.js"></script> -->
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-base.min.js"></script> -->
+    <!-- <script type="text/javascript" src="./src/anychart/anychart-ui.min.js"></script> -->
+
+    <script type="text/javascript" src="./src/scripts.js"></script>
   </body>
 </html>

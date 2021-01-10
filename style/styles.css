@@ -404,78 +404,79 @@ span {
   grid-area: usrName;
 }
 
-#s1 {
+#s1, .address-sec {
   grid-area: address;
 }
 
-#s2 {
+#s2, .email-sec {
   grid-area: usrEmail;
 }
 
-#s31 {
+#s31, .steps-sec {
   grid-area: stepSec;
 }
 
-#s32 {
+/* #s32 {
   grid-area: stepDay;
-}
+} */
 
-#s33 {
+#s33, .stepMin-sec {
   grid-area: stepMin;
 }
 
-#s34 {
+/* 
+#s34, {
   grid-area: stepDst;
-}
+} */
 
-#s35 {
+#s35, .actStair-sec {
   grid-area: actStair;
 }
 
-#s41 {
+#s41, .myGoal-sec {
   grid-area: myGoal;
 }
-
+/* 
 #s42 {
   grid-area: avgGoal;  
-}
+} */
 
-#s6 {
+#s6, .hydra-sec {
   grid-area: hydraSec; 
 }
 
-#s7 {
+#s7, .activity-sec {
   grid-area: actvSec;
 }
 
-#s81 {
+#s81, .sleepHrs-sec {
   grid-area: sleepHrs;
 }
 
-#s82 {
+#s82, .sleepQty-sec {
   grid-area: sleepQty;
 }
 
-#s83 {
+#s83, .sleepChart-sec {
   grid-area: sleepSec;
 }
 
-#s84 {
+#s84, .sleepHrs-sec {
   grid-area: slpWkAvg;
 }
 
-#s85 {
+#s85, .sleepQty-sec {
   grid-area: slpWkQty;
 }
 
-#s9 {
+#s9, .friends-sec {
   grid-area: friends;
   display: grid;
   grid-template-rows: 25px auto;  
   padding: 5px;
 }
 
-#s92 {
+#s92, .frChallenge-sec {
   grid-area: frChalng;
 }
 

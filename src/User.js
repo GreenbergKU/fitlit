@@ -6,26 +6,52 @@ class User {
     this.address = this.data[0].address;
     this.email = this.data[0].email;
     this.strideLength = this.data[0].strideLength;
-    this.avgStepGoal = usersData.findAvg(usersData.data, "dailyStepGoal");
-    this.dailyStepGoal = this.data[0].dailyStepGoal;
-    this.friends = this.data[0].friends || [];
+    this.dailyStepGoal = this.data[0].dailyStepGoal;  
+    this.friends = this.data[0].friends || [];   
     this.friendsData = [];
+    this.avgStepGoal = usersData.avgStepGoal;
+
     this.hydration = this.filterUserID(usersData.hydrationData, this.id);
     this.sleep = this.filterUserID(usersData.sleepData, this.id);
     this.activity = this.filterUserID(usersData.activityData, this.id);
-    this.sleepAvgHrs = usersData.findAvg(this.sleep, "hoursSlept");
-    this.sleepQtyAvg = usersData.findAvg(this.sleep, "sleepQuality");
-    this.weekData = f;
+    
+    this.data = {
+      hydration: this.filterUserID(usersData.hydrationData, this.id), 
+      sleep: this.filterUserID(usersData.sleepData, this.id), 
+      activity: this.filterUserID(usersData.activityData, this.id)
+    };
+    //this.data.sleep.sleepAvgHrs = usersData.findAvg(this.sleep, "hoursSlept");
+    //this.data.sleep.sleepQtyAvg = usersData.findAvg(this.sleep, "sleepQuality");
+    //this.minActiveAvg = usersData.findAvg(repoData.activityData, "minutesActive");
+    //this.stairsAvg = usersData.findAvg(repoData.activityData, "flightsOfStairs"); 
+    
+    this.weekData = {
+      hydration: this.findDateSpan(this.data.hydration, 7),
+      sleep: this.findDateSpan(this.data.sleep, 7), 
+      activity: this.findDateSpan(this.data.activity, 7),
+    };
+    this.findWkAvgs(usersData);
+    
     /*
-    {
-      hydration: this.findDateSpan(this.hydration, 7),
-      sleep: this.findDateSpan(this.sleep, 7), 
-      activity: this.findDateSpan(this.activity, 7)
-    }
+      {
+        hydration: this.findDateSpan(this.hydration, 7),
+        sleep: this.findDateSpan(this.sleep, 7), 
+        activity: this.findDateSpan(this.activity, 7)
+      }
     */
     
   }
 
+  findWkAvgs(usersData) {
+    this.avgStepGoal = usersData.findAvg(usersData.data, "dailyStepGoal");   
+    this.sleepAvgHrs = usersData.findAvg(usersData.sleepData, "hoursSlept");
+    this.sleepQtyAvg = usersData.findAvg(usersData.sleepData, "sleepQuality");
+    this.weekData.sleepWkAvg = usersData.findAvg(this.weekData.sleep, "hoursSlept");
+    this.weekData.slpQtyWkAvg = usersData.findAvg(this.weekData.sleep, "sleepQuality");
+    this.weekData.actWkSum =  this.findSum(this.findAll(this.weekData.activity, "numSteps"));
+    this.minActiveAvg = usersData.findAvg(usersData.activityData, "minutesActive");
+    this.stairsAvg = usersData.findAvg(usersData.activityData, "flightsOfStairs"); 
+  }
 
   firstName() {
     return this.name.split(" ")[0];
@@ -35,8 +61,8 @@ class User {
     return data.filter(user => user.userID === id);
   }
 
-  filterProperty(data, property, id) {
-    return data.filter(user => user[property] === id);
+  filterProperty(data, property, value) {
+    return data.filter(obj => obj[property] === value);
   }
 
   addFriendData(friendData) {
@@ -51,8 +77,8 @@ class User {
   }
 
   validateDate(data, dayNum, date) {
-    return !date ? dayNum > 1 ? 
-    data.slice(`-${dayNum}`, `-${dayNum - 1}`)[0].date 
+    let week = data.slice(`-${dayNum}`, `-${dayNum - 1}`);
+    return !date ? dayNum > 1 && week.length === 7 ? week[0].date 
     : data.slice(`-${dayNum}`)[0].date
     : date;
   }
@@ -68,7 +94,7 @@ class User {
   findSum(numbers) {
     let sum = 0;
     numbers.forEach(num => sum += num);
-    return sum
+    return sum;
   }
 
   findDistance(data) {
